@@ -251,10 +251,11 @@ Skill đến từ 4 nguồn: nhân vật, trang sức, pet, và clan skill. Tấ
 - Mid-spenders là segment quan trọng nhất cho conversion
 - Mục tiêu: tạo cảm giác "đáng đồng tiền" cho mid-spender
 
-## Event Săn kho báu (BuyRollGift):
-- Event bán nhân vật premium chứa new skill mỗi tháng 1 skill mới.
-- có 4 cạnh như map chơi, trên đó là các phần quà, user tung xx để nhận quà tương ứng, mỗi lần tung xx tốn một số G nhất định. tổng 4 cạnh là 1k G (gem or coin gọi thế nào cũng dc)
-- cạnh 2 có thẻ A chứa 3 skill giá pity 2tr có tỷ lệ ra
-- canh 3 có thẻ S chứa 4 skill giá pity 5tr có tỷ lệ ra
-- cạnh 4 có thẻ R chứa 5 skill gái pity 10tr có tỷ lệ ra.
+## Event Săn kho báu (BuyRollGift / SKB):
+- Event bán nhân vật premium chứa new skill, mỗi tháng 1 skill mới.
+- Có 4 cạnh như map chơi, trên đó là các phần quà, user tung xx để nhận quà tương ứng, mỗi lần tung xx tốn G. Tổng 4 cạnh là 1,000G/vòng.
+- Cạnh 2 có thẻ A chứa 3 skill, giá pity 2tr VNĐ (2,000G), có tỷ lệ ra
+- Cạnh 3 có thẻ S chứa 4 skill, giá pity 5tr VNĐ (5,000G), có tỷ lệ ra
+- Cạnh 4 có thẻ R chứa 5 skill, giá pity 10tr VNĐ (10,000G), có tỷ lệ ra
+- Chạy 2 tuần/tháng, xen kẽ với CHĐ (Cung hoàng đạo / 12 con giáp / EventConGiapBuyPack). CHĐ mechanic khác nhưng cùng bán NV xịn, cùng đẳng cấp, cùng giá.
 

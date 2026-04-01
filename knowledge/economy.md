@@ -1,5 +1,10 @@
 # Economy & Monetization - CTP
 
+## Thuật ngữ
+- **G** = Gem = Coin = cùng 1 item (premium currency). Trong DB log tên field là "coin". Tài liệu này thống nhất gọi là **G**.
+- Tỷ giá: **100,000 VNĐ = 1,000G**
+- GOLD = in-game currency (tiền vàng chơi game), KHÁC với G
+
 ## Current Metrics (tháng 3/2026)
 - Revenue: ~1.37 tỷ/tháng (30 ngày, trung bình ~45.6M/ngày)
 
@@ -14,9 +19,10 @@
 - SEASON_PASS: 3.1% (~43M)
 
 ## Revenue Insights (confirmed)
-- GEM là coin chính, dùng để chơi event mua nhân vật xịn và trang sức xịn. Rev chính đến từ GEM.
-- GEM rev rất volatile: ngày cao 53M, ngày thấp 9.4M (chênh 5.6x). Lý do: tập whale ít người nhưng thi thoảng nạp nhiều để lấy nhân vật → đẩy rev GEM spike mạnh.
+- G là premium currency chính, dùng để chơi event mua nhân vật xịn và trang sức xịn. Rev chính đến từ nạp G.
+- G rev rất volatile: ngày cao 53M, ngày thấp 9.4M (chênh 5.6x). Lý do: tập whale ít người nhưng thi thoảng nạp nhiều để lấy nhân vật → đẩy rev G spike mạnh.
 - Rev phụ thuộc vào tập core user ít nhưng chi nhiều. Nếu tập này churn, rev drop rất mạnh.
+- **Rev breakdown là theo nguồn nạp** (G, GOLD, VIP...), còn **coin out là theo nơi tiêu G** (SKB, CHĐ, Hidden Shop...). G rev = tiền vào, event coin out = G đi đâu. Không cộng trực tiếp sẽ double count.
 
 ## PU Insights (confirmed, tháng 3/2026)
 - GEM chỉ ~63 PU/ngày nhưng ARPPU cao nhất: 405k/ngày. Confirm: revenue phụ thuộc vào nhóm whale nhỏ nạp GEM rất nhiều.
