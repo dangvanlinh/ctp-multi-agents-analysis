@@ -189,12 +189,26 @@ with st.sidebar:
     st.divider()
 
     # History
-    st.subheader("Debate History")
+    st.subheader("📂 Lich su Debate")
     output_files = sorted(glob.glob("outputs/debate_*.md"), reverse=True)
     if output_files:
-        for f in output_files[:10]:
-            name = os.path.basename(f).replace("debate_", "").replace(".md", "")
-            if st.button(f"📄 {name}", key=f"hist_{f}", use_container_width=True):
+        for f in output_files[:15]:
+            # Parse topic + date from file header
+            label = os.path.basename(f).replace("debate_", "").replace(".md", "")
+            try:
+                with open(f, "r", encoding="utf-8") as fh:
+                    head = fh.read(500)
+                # Extract topic from metadata
+                import re as _re
+                topic_match = _re.search(r'\*\*Topic:\*\*\s*(.+)', head)
+                date_match = _re.search(r'\*\*Date:\*\*\s*(.+)', head)
+                if topic_match:
+                    t = topic_match.group(1).strip()[:35]
+                    d = date_match.group(1).strip() if date_match else ""
+                    label = f"{t}\n{d}" if d else t
+            except Exception:
+                pass
+            if st.button(f"📄 {label}", key=f"hist_{f}", use_container_width=True):
                 with open(f, "r", encoding="utf-8") as fh:
                     st.session_state["viewing_history"] = fh.read()
     else:
@@ -597,7 +611,12 @@ if st.session_state.phase == 3:
             st.session_state.debate_complete = True
 
             # Auto-save
-            save_debate_log(st.session_state.debate_log, len(st.session_state.rounds_data))
+            save_debate_log(
+                st.session_state.debate_log,
+                len(st.session_state.rounds_data),
+                topic=st.session_state.topic,
+                tracker=st.session_state.token_tracker,
+            )
 
             st.divider()
             if converged:

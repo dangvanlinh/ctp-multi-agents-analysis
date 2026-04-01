@@ -68,7 +68,7 @@ if __name__ == "__main__":
             print(f"\n{'🔥'*30}")
             print(f"   BẮT ĐẦU DEBATE")
             print(f"{'🔥'*30}")
-            run_debate(data, max_rounds=args.rounds, knowledge_dir=args.knowledge, interactive=args.interactive)
+            run_debate(data, max_rounds=args.rounds, knowledge_dir=args.knowledge, interactive=args.interactive, topic=args.topic)
     else:
         # Flow A: User đưa data trước (flow cũ)
         if args.file:

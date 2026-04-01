@@ -424,7 +424,7 @@ def request_data(topic, knowledge_dir="knowledge", auto_query=True):
 # Core debate loop
 # ============================================================
 
-def run_debate(data_input, max_rounds=2, knowledge_dir="knowledge", interactive=False):
+def run_debate(data_input, max_rounds=2, knowledge_dir="knowledge", interactive=False, topic=None):
     """Main debate loop."""
 
     tracker = TokenTracker()
@@ -514,7 +514,7 @@ def run_debate(data_input, max_rounds=2, knowledge_dir="knowledge", interactive=
                 )
 
     # Save
-    save_debate_log(debate_log, max_rounds)
+    save_debate_log(debate_log, max_rounds, topic=topic, tracker=tracker)
 
     # Final token summary
     print(f"\n{'='*60}")
@@ -612,19 +612,35 @@ AGENT_DISPLAY_NAMES = {
 }
 
 
-def save_debate_log(log, rounds):
+def save_debate_log(log, rounds, topic=None, tracker=None):
     """Lưu debate log ra file markdown."""
     os.makedirs("outputs", exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"outputs/debate_{timestamp}.md"
+
+    # Tên file có topic cho dễ tìm
+    if topic:
+        safe_topic = re.sub(r'[^\w\s-]', '', topic)[:40].strip().replace(' ', '_')
+        filename = f"outputs/debate_{safe_topic}_{timestamp}.md"
+    else:
+        filename = f"outputs/debate_{timestamp}.md"
 
     with open(filename, "w", encoding="utf-8") as f:
         f.write(f"# CTP Agent Debate Log\n")
+        if topic:
+            f.write(f"**Topic:** {topic}\n")
         f.write(f"**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M')}\n")
-        f.write(f"**Rounds:** {rounds}\n\n---\n\n")
+        f.write(f"**Rounds:** {rounds}\n\n")
+
+        # Token cost summary
+        if tracker and tracker.entries:
+            f.write(f"**Token cost:** ${tracker.total_cost:.4f} "
+                    f"({tracker.total_input + tracker.total_output:,} tokens)\n")
+
+        f.write(f"\n---\n\n")
 
         for agent, text in log:
             name = AGENT_DISPLAY_NAMES.get(agent, agent)
             f.write(f"## {name}\n\n{text}\n\n---\n\n")
 
     print(f"\n💾 Log saved: {filename}")
+    return filename
