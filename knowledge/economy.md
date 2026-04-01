@@ -29,9 +29,18 @@
 Total coin out: ~10.77M
 
 ### Event bán đồ xịn (whale-targeted) — 69.6% coin out
-- Nhân vật: EventConGiapBuyPack (31.6%) + BuyRollGift (20.1%) = 51.7%
+- Nhân vật: EventConGiapBuyPack/CHĐ (31.6%) + BuyRollGift/SKB (20.1%) = 51.7%
 - Trang sức: TreasureDigBuyLaserGun (9.9%) + GBuyHammer/đập trứng (8.0%) = 17.9%
 - Event là động lực chính khiến whale nạp GEM. Không có event hấp dẫn → user không tiêu coin → không nạp → rev giảm.
+
+### Event bán nhân vật — SKB + CHĐ (confirmed)
+- **SKB (Săn kho báu / BuyRollGift)** và **CHĐ (Cung hoàng đạo / 12 con giáp / EventConGiapBuyPack)** là 2 event chính bán nhân vật premium
+- Mechanic khác nhau nhưng cùng bán nhân vật xịn, cùng đẳng cấp, cùng giá
+- Chạy xen kẽ: mỗi event 2 tuần/tháng, luân phiên → luôn có 1 event bán nhân vật active
+- Mỗi tháng ra 1 skill mới (nhân vật mới)
+- **Rev estimate: SKB ~216M + CHĐ ~340M = ~556M/tháng → chiếm >1/3 tổng rev game**
+- SKB design: 4 cạnh, tổng 1,000G/vòng, pity thẻ A (2tr) / S (5tr) / R (10tr)
+- CHĐ: cùng giá pity, mechanic khác
 
 ### Hidden Shop — 8.8% coin out
 - BuyHiddenShop (8.0%) + BuyHiddenShopPendant (0.8%)
