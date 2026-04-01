@@ -2,20 +2,25 @@
 
 import sys
 
+# Model config
+CLAUDE_OPUS = "claude-opus-4-20250514"
+CLAUDE_SONNET = "claude-sonnet-4-20250514"
 
-def call_claude(system_prompt, user_message):
+
+def call_claude(system_prompt, user_message, model=None):
     """Gọi Claude API. Returns (text, usage_dict)."""
+    model = model or CLAUDE_SONNET
     try:
         import anthropic
         client = anthropic.Anthropic()
         response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model=model,
             max_tokens=4096,
             system=system_prompt,
             messages=[{"role": "user", "content": user_message}]
         )
         usage = {
-            "model": response.model or "claude-sonnet-4-20250514",
+            "model": response.model or model,
             "input_tokens": response.usage.input_tokens,
             "output_tokens": response.usage.output_tokens,
         }
@@ -27,14 +32,15 @@ def call_claude(system_prompt, user_message):
         return f"[Claude Error: {e}]", None
 
 
-def stream_claude(system_prompt, user_message):
+def stream_claude(system_prompt, user_message, model=None):
     """Yield text chunks từ Claude streaming API.
     After iteration, call .usage on the returned generator to get usage dict.
     """
+    model = model or CLAUDE_SONNET
     import anthropic
     client = anthropic.Anthropic()
     with client.messages.stream(
-        model="claude-sonnet-4-20250514",
+        model=model,
         max_tokens=4096,
         system=system_prompt,
         messages=[{"role": "user", "content": user_message}],
@@ -44,7 +50,7 @@ def stream_claude(system_prompt, user_message):
         # Capture usage after stream completes
         msg = stream.get_final_message()
         stream_claude._last_usage = {
-            "model": msg.model or "claude-sonnet-4-20250514",
+            "model": msg.model or model,
             "input_tokens": msg.usage.input_tokens,
             "output_tokens": msg.usage.output_tokens,
         }

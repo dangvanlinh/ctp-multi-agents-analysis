@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from agents import call_claude, call_gpt, call_gemini, stream_claude, get_last_stream_usage, TokenTracker
+from agents import call_claude, call_gpt, call_gemini, stream_claude, get_last_stream_usage, TokenTracker, CLAUDE_OPUS
 from agents import ANALYST_ROLE, REVIEWER_ROLES, SYNTHESIZER_ROLE, DATA_REQUEST_ROLE, SQL_GENERATOR_ROLE
 from knowledge import load_knowledge
 from superset.client import query_superset, format_results_markdown
@@ -181,7 +181,7 @@ def phase05_build_data_with_insights(topic, data_request_text, markdown_report, 
 
 
 def phase1_analyst(data_input, last_synthesis, round_num, analyst_system, tracker=None):
-    """Phase 1: Analyst phân tích. Trả về text."""
+    """Phase 1: Analyst phân tích (Opus). Trả về text."""
     if round_num == 1:
         prompt = f"Phân tích data và đề xuất giải pháp:\n\n{data_input}"
     else:
@@ -189,14 +189,14 @@ def phase1_analyst(data_input, last_synthesis, round_num, analyst_system, tracke
             f"Revise giải pháp dựa trên feedback:\n\n{last_synthesis}"
             f"\n\nData gốc:\n{data_input}"
         )
-    text, usage = call_claude(analyst_system, prompt)
+    text, usage = call_claude(analyst_system, prompt, model=CLAUDE_OPUS)
     if tracker and usage:
-        tracker.log(f"Round {round_num} - Analyst", **usage)
+        tracker.log(f"Round {round_num} - Analyst (Opus)", **usage)
     return text
 
 
 def phase1_analyst_stream(data_input, last_synthesis, round_num, analyst_system, tracker=None):
-    """Phase 1: Analyst phân tích (streaming). Yield text chunks."""
+    """Phase 1: Analyst phân tích streaming (Opus). Yield text chunks."""
     if round_num == 1:
         prompt = f"Phân tích data và đề xuất giải pháp:\n\n{data_input}"
     else:
@@ -204,11 +204,11 @@ def phase1_analyst_stream(data_input, last_synthesis, round_num, analyst_system,
             f"Revise giải pháp dựa trên feedback:\n\n{last_synthesis}"
             f"\n\nData gốc:\n{data_input}"
         )
-    yield from stream_claude(analyst_system, prompt)
+    yield from stream_claude(analyst_system, prompt, model=CLAUDE_OPUS)
     if tracker:
         usage = get_last_stream_usage()
         if usage:
-            tracker.log(f"Round {round_num} - Analyst", **usage)
+            tracker.log(f"Round {round_num} - Analyst (Opus)", **usage)
 
 
 def phase2_build_review_prompt(analyst_resp, data_input, last_synthesis, round_num):
