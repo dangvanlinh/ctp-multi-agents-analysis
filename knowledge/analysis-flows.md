@@ -22,4 +22,16 @@
 2. Nếu inflow > sink → inflation → cần thêm sink
 3. Check edge case: Lv6 player với +30% bonus nạp liên tục
 
+## Flow 5: Top-Down Feature Analysis (BẮT BUỘC cho mọi phân tích)
+Đây là skill phân tích cốt lõi. LUÔN đi từ tổng quan xuống chi tiết, KHÔNG nhảy thẳng vào đề xuất.
+
+1. **Overall metrics trước** — Feature đang đóng góp bao nhiêu % rev? Bao nhiêu PU? ARPPU bao nhiêu? So với các feature khác thì thế nào?
+2. **Hiểu design hiện tại** — Feature hoạt động thế nào? Giá bao nhiêu? Gồm những gì? Tỷ giá so với mua thẳng?
+3. **Xác định ai đang dùng** — User nào mua? Old/Mid/New? Vì lý do gì? Benefit nào thực sự có giá trị vs filler?
+4. **Tìm mismatch** — Design đang target ai vs ai thực sự mua? Có benefit nào valuable với segment này nhưng vô nghĩa với segment kia?
+5. **Đặt câu hỏi data** — Từ phân tích trên, xác định data nào cần query để confirm/reject giả thuyết
+6. **Đề xuất dựa trên evidence** — Chỉ đề xuất sau khi có đủ context, gắn với feature cụ thể đã có
+
+Nguyên tắc: Mỗi bước phải hoàn thành trước khi xuống bước tiếp. KHÔNG skip bước 1-4 để nhảy thẳng vào đề xuất.
+
 ## (Anh thêm flow phân tích riêng vào đây)
