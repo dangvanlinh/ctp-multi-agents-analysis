@@ -76,12 +76,18 @@ Tổng revenue: ~1,509.6M (32 ngày: 02/28–03/31)
 
 ## VIP Design (hiện tại)
 - Giá: 100k VNĐ / 10 ngày
+- Tỷ giá GEM: 100k = 1,000G (mua thẳng) vs VIP cho 1,500G → VIP rẻ hơn 33% về GEM
 - Phần thưởng:
   - **1,500 GEM**: 750G nhận ngay khi nạp, 750G còn lại chia đều 9 ngày tiếp theo (~83G/ngày)
   - **50 rương vàng**: chia đều 10 ngày (5 rương/ngày). Rương vàng có tỷ lệ ra thẻ A, skill random từ pool
   - **3 rương tím + 3 rương cam**: nhận ngày cuối (ngày 10) — mechanic retention giữ user mua VIP đến hết kỳ
-  - **x2 EXP nhân vật** khi chơi game — benefit giá trị nhất với old user, vì nâng cấp nhân vật rất tốn thời gian nếu không có x2. Đặc biệt quan trọng khi SKB/CHD ra nhân vật mới xịn cần max nhanh
-  - **10 chìa khóa đục lỗ trang sức** — cũng hướng tới old user (cần đục lỗ thẻ A trở lên để gắn trang sức)
+  - **x2 EXP nhân vật** khi chơi game — **benefit giá trị nhất, exclusive chỉ VIP mới có, không có nguồn khác**. Cực kỳ quan trọng với old user khi SKB/CHD ra nhân vật mới xịn cần max nhanh. Game nâng cấp rất tốn thời gian nếu không có x2 EXP.
+  - **10 chìa khóa đục lỗ trang sức** — cho old user (cần đục lỗ thẻ A trở lên để gắn trang sức)
+
+### VIP Insights (confirmed)
+- **x2 EXP là lý do chính old user mua VIP** — các reward khác (rương, chìa khóa) là filler với informed user
+- **VIP kẹt giữa 2 segment**: old user chỉ cần x2 EXP (1 benefit duy nhất có giá trị), new user chưa cần x2 EXP (chưa có nhân vật xịn để nâng)
+- Cần data: VIP PU theo user age, renewal rate, timing vs event cycle
 
 ## Monetization Insights (confirmed)
 
