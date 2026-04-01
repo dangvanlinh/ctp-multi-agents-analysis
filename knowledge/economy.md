@@ -73,3 +73,21 @@ Tổng revenue: ~1,509.6M (32 ngày: 02/28–03/31)
 - **Cuối tháng là golden window cho core users**: 03/30–03/31 có ARPU cao nhất (6,947–9,804/user), nên timing event lớn vào 28–31 hàng tháng để capture spending peak.
 
 ## Pricing Philosophy
+
+## VIP Design (hiện tại)
+- Giá: 100k VNĐ / 10 ngày
+- Phần thưởng:
+  - **1,500 GEM**: 750G nhận ngay khi nạp, 750G còn lại chia đều 9 ngày tiếp theo (~83G/ngày)
+  - **50 rương vàng**: chia đều 10 ngày (5 rương/ngày). Rương vàng có tỷ lệ ra thẻ A, skill random từ pool
+  - **3 rương tím + 3 rương cam**: nhận ngày cuối (ngày 10) — mechanic retention giữ user mua VIP đến hết kỳ
+  - **x2 EXP nhân vật** khi chơi game — benefit giá trị nhất với old user, vì nâng cấp nhân vật rất tốn thời gian nếu không có x2. Đặc biệt quan trọng khi SKB/CHD ra nhân vật mới xịn cần max nhanh
+  - **10 chìa khóa đục lỗ trang sức** — cũng hướng tới old user (cần đục lỗ thẻ A trở lên để gắn trang sức)
+
+## Monetization Insights (confirmed)
+
+### Gacha thường vs Event — tại sao gacha coin out thấp
+- Rương/gacha thường mở ra thẻ random skill, pool skill rất rộng → rất khó ra được skill xịn hoặc combo skill xịn
+- User hiểu biết (thường sau age 7 ngày) nhận ra điều này → không gacha thường nữa
+- Event SKB (Săn kho báu), CHĐ (Cung hoàng đạo) bán sẵn thẻ đã được mix skill xịn → đây mới là con đường chính để có nhân vật mạnh
+- Kết quả: gacha nhân vật thường chỉ 0.4% coin out, gần như không ai dùng. User chỉ mua nhân vật qua event
+- **Implication cho design**: Bất kỳ reward nào dạng "rương random" đều có perceived value thấp với informed user. Reward dạng "chọn được" hoặc "đảm bảo chất lượng" có perceived value cao hơn nhiều
