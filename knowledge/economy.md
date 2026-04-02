@@ -5,8 +5,13 @@
 - Tỷ giá: **100,000 VNĐ = 1,000G**
 - GOLD = in-game currency (tiền vàng chơi game), KHÁC với G
 
-## Current Metrics (tháng 3/2026)
-- Revenue: ~1.37 tỷ/tháng (30 ngày, trung bình ~45.6M/ngày)
+## Current Metrics
+| Tháng | Total Rev | PU | ARPPU |
+|-------|-----------|-----|-------|
+| T2/2026 | 1.16 tỷ | 2,282 | 508k |
+| T3/2026 | 1.52 tỷ | 4,603 | 330k |
+
+Tăng trưởng +31% rev nhưng ARPPU giảm — do UA đổ user mới (PU +102%), ARPPU bị pha loãng.
 
 
 ## KPI Targets
@@ -42,7 +47,7 @@ Total coin out: ~10.77M
 ### Event bán nhân vật — SKB + CHĐ (confirmed)
 - **SKB (Săn kho báu / BuyRollGift)** và **CHĐ (Cung hoàng đạo / 12 con giáp / EventConGiapBuyPack)** là 2 event chính bán nhân vật premium
 - Mechanic khác nhau nhưng cùng bán nhân vật xịn, cùng đẳng cấp, cùng giá
-- Chạy xen kẽ: mỗi event 2 tuần/tháng, luân phiên → luôn có 1 event bán nhân vật active
+- **Chạy cả tháng**: cả SKB và CHĐ đều chạy xuyên suốt tháng, không phải xen kẽ 2 tuần
 - Mỗi tháng ra 1 skill mới (nhân vật mới)
 - **Rev estimate: SKB ~216M + CHĐ ~340M = ~556M/tháng → chiếm >1/3 tổng rev game**
 - SKB design: 4 cạnh, tổng 1,000G/vòng, pity thẻ A (2tr) / S (5tr) / R (10tr)
@@ -87,22 +92,36 @@ Tổng revenue: ~1,509.6M (32 ngày: 02/28–03/31)
 - **Tối ưu thêm Day0/Day1**: Onboarding monetization đang tốt, có thể push thêm (first-purchase bonus, time-limited starter pack) để tăng conversion rate cho new users.
 - **Cuối tháng là golden window cho core users**: 03/30–03/31 có ARPU cao nhất (6,947–9,804/user), nên timing event lớn vào 28–31 hàng tháng để capture spending peak.
 
+## T2 vs T3 Trend (confirmed)
+| Sản phẩm | Rev T2 | Rev T3 | Tăng trưởng |
+|----------|--------|--------|-------------|
+| GEM | 888M | 875M | -1.5% |
+| Gold (gộp) | 97M | 379M | +291% |
+| First Pay | 72M | 131M | +82% |
+| VIP | 55M | 87M | +58% |
+| SEASON_PASS | 29M | 46M | +58% |
+
+- GEM giảm dù PU tăng → ARPPU GEM giảm
+- Gold/First Pay tăng cực mạnh nhờ UA đổ new user
+- VIP/Season Pass tăng 58% — tương đương UA growth, không outperform
+
+## Repay Rate 30 ngày (T2→T3, confirmed)
+| Segment | Users | Repay Rate | Mất |
+|---------|-------|------------|-----|
+| Tổng | 2,282 | 27.4% | 1,657 |
+| <7d (New) | 640 | 22.0% | 499 |
+| 7-30d | 430 | 21.9% | 336 |
+| 30-90d | 376 | 26.1% | 278 |
+| 90-180d | 245 | 30.6% | 170 |
+| >180d (Core) | 591 | 36.7% | 374 |
+
+- 72.6% payer mất sau 30 ngày — vấn đề lớn của game
+- New user mất 78%, Core vẫn mất 63%
+
 ## Pricing Philosophy
 
-## VIP Design (hiện tại)
-- Giá: 100k VNĐ / 10 ngày
-- Tỷ giá GEM: 100k = 1,000G (mua thẳng) vs VIP cho 1,500G → VIP rẻ hơn 33% về GEM
-- Phần thưởng:
-  - **1,500 GEM**: 750G nhận ngay khi nạp, 750G còn lại chia đều 9 ngày tiếp theo (~83G/ngày)
-  - **50 rương vàng**: chia đều 10 ngày (5 rương/ngày). Rương vàng có tỷ lệ ra thẻ A, skill random từ pool
-  - **3 rương tím + 3 rương cam**: nhận ngày cuối (ngày 10) — mechanic retention giữ user mua VIP đến hết kỳ
-  - **x2 EXP nhân vật** khi chơi game — **benefit giá trị nhất, exclusive chỉ VIP mới có, không có nguồn khác**. Cực kỳ quan trọng với old user khi SKB/CHD ra nhân vật mới xịn cần max nhanh. Game nâng cấp rất tốn thời gian nếu không có x2 EXP.
-  - **10 chìa khóa đục lỗ trang sức** — cho old user (cần đục lỗ thẻ A trở lên để gắn trang sức)
-
-### VIP Insights (confirmed)
-- **x2 EXP là lý do chính old user mua VIP** — các reward khác (rương, chìa khóa) là filler với informed user
-- **VIP kẹt giữa 2 segment**: old user chỉ cần x2 EXP (1 benefit duy nhất có giá trị), new user chưa cần x2 EXP (chưa có nhân vật xịn để nâng)
-- Cần data: VIP PU theo user age, renewal rate, timing vs event cycle
+## VIP
+> Chi tiết design, data & backlog → xem [features/vip.md](features/vip.md)
 
 ## Monetization Insights (confirmed)
 

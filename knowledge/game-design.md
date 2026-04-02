@@ -257,5 +257,5 @@ Skill đến từ 4 nguồn: nhân vật, trang sức, pet, và clan skill. Tấ
 - Cạnh 2 có thẻ A chứa 3 skill, giá pity 2tr VNĐ (2,000G), có tỷ lệ ra
 - Cạnh 3 có thẻ S chứa 4 skill, giá pity 5tr VNĐ (5,000G), có tỷ lệ ra
 - Cạnh 4 có thẻ R chứa 5 skill, giá pity 10tr VNĐ (10,000G), có tỷ lệ ra
-- Chạy 2 tuần/tháng, xen kẽ với CHĐ (Cung hoàng đạo / 12 con giáp / EventConGiapBuyPack). CHĐ mechanic khác nhưng cùng bán NV xịn, cùng đẳng cấp, cùng giá.
+- Chạy cả tháng (không phải xen kẽ 2 tuần). CHĐ (Cung hoàng đạo / 12 con giáp / EventConGiapBuyPack) cũng chạy cả tháng. Mechanic khác nhưng cùng bán NV xịn, cùng đẳng cấp, cùng giá.
 

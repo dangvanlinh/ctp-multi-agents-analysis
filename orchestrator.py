@@ -34,10 +34,11 @@ def phase0_data_request(topic, knowledge, tracker=None):
     system = DATA_REQUEST_ROLE + "\n\n# GAME KNOWLEDGE BASE\n" + knowledge
     text, usage = call_claude(
         system,
-        f"Topic phân tích: {topic}\n\nHãy xác định những data nào cần thêm để phân tích topic này."
+        f"Topic phân tích: {topic}\n\nHãy xác định những data nào cần thêm để phân tích topic này.",
+        model=CLAUDE_OPUS,
     )
     if tracker and usage:
-        tracker.log("Phase 0 - Data Request", **usage)
+        tracker.log("Phase 0 - Data Request (Opus)", **usage)
     return text
 
 
@@ -46,12 +47,13 @@ def phase0_data_request_stream(topic, knowledge, tracker=None):
     system = DATA_REQUEST_ROLE + "\n\n# GAME KNOWLEDGE BASE\n" + knowledge
     yield from stream_claude(
         system,
-        f"Topic phân tích: {topic}\n\nHãy xác định những data nào cần thêm để phân tích topic này."
+        f"Topic phân tích: {topic}\n\nHãy xác định những data nào cần thêm để phân tích topic này.",
+        model=CLAUDE_OPUS,
     )
     if tracker:
         usage = get_last_stream_usage()
         if usage:
-            tracker.log("Phase 0 - Data Request", **usage)
+            tracker.log("Phase 0 - Data Request (Opus)", **usage)
 
 
 def build_data_input(topic, data_request, collected_parts):
@@ -80,25 +82,25 @@ def phase05_generate_queries(topic, data_request_text, knowledge, tracker=None):
         f"Data cần thiết (từ Phase 0):\n{data_request_text}\n\n"
         f"Hãy viết SQL queries để lấy các data BẮT BUỘC từ ClickHouse."
     )
-    text, usage = call_claude(system, prompt)
+    text, usage = call_claude(system, prompt, model=CLAUDE_OPUS)
     if tracker and usage:
-        tracker.log("Phase 0.5 - SQL Generator", **usage)
+        tracker.log("Phase 0.5 - SQL Generator (Opus)", **usage)
     return text
 
 
 def phase05_generate_queries_stream(topic, data_request_text, knowledge, tracker=None):
-    """Agent sinh SQL queries (streaming)."""
+    """Agent sinh SQL queries (streaming, Opus)."""
     system = SQL_GENERATOR_ROLE + "\n\n# GAME KNOWLEDGE BASE\n" + knowledge
     prompt = (
         f"Topic phân tích: {topic}\n\n"
         f"Data cần thiết (từ Phase 0):\n{data_request_text}\n\n"
         f"Hãy viết SQL queries để lấy các data BẮT BUỘC từ ClickHouse."
     )
-    yield from stream_claude(system, prompt)
+    yield from stream_claude(system, prompt, model=CLAUDE_OPUS)
     if tracker:
         usage = get_last_stream_usage()
         if usage:
-            tracker.log("Phase 0.5 - SQL Generator", **usage)
+            tracker.log("Phase 0.5 - SQL Generator (Opus)", **usage)
 
 
 def phase05_parse_queries(agent_output: str) -> list[dict]:

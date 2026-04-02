@@ -61,9 +61,10 @@
 - `BIG_RICH` — Gói Big Rich
 - `SEASON_PASS` — Season Pass
 - `VIP` — Đăng ký/gia hạn VIP
-- `UNKNOW-50` — Gói nạp lần đầu 50k
-- `UNKNOW-51` — Gói nạp lần đầu 100k
-- `UNKNOW-52` — Gói nạp lần đầu 100k (IAP)
+- `UNKNOW-50` — Gói first pay 50k (nạp lần đầu, giá 50k VNĐ)
+- `UNKNOW-51` — Gói first pay 100k (nạp lần đầu, giá 100k VNĐ)
+- `UNKNOW-52` — Gói first pay (IAP variant)
+- `NEW_FIRST_PAY` — Gói first pay (variant khác)
 
 > ⚠️ **Lưu ý**: Cột `money` trong Payment = gold balance của user tại thời điểm thanh toán, **KHÔNG phải revenue**. Revenue nằm ở `extra_2`.
 
