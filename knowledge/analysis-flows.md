@@ -34,4 +34,15 @@
 
 Nguyên tắc: Mỗi bước phải hoàn thành trước khi xuống bước tiếp. KHÔNG skip bước 1-4 để nhảy thẳng vào đề xuất.
 
+## Flow 6: KPI Impact Estimation (BẮT BUỘC trước khi design solution)
+Sau khi phân tích xong vấn đề, KHÔNG đi thẳng vào solution. Phải estimate impact trước.
+
+1. **Xác định KPI muốn sửa** — Metric nào sẽ thay đổi nếu fix vấn đề này? (Rev, PU, ARPPU, Repeat rate...)
+2. **Estimate impact** — Nếu fix thành công, KPI tăng bao nhiêu? Quy ra revenue/tháng cụ thể
+3. **So với total** — Impact chiếm bao nhiêu % total rev? Có đáng để invest effort không?
+4. **So với opportunity khác** — Có chỗ nào khác leverage lớn hơn với effort tương đương không?
+5. **Quyết định** — Impact đủ lớn → design solution. Impact nhỏ → park lại, chuyển sang opportunity lớn hơn.
+
+Nguyên tắc: Không bao giờ design solution mà chưa biết impact. Số nhỏ + effort lớn = lãng phí.
+
 ## (Anh thêm flow phân tích riêng vào đây)
