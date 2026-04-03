@@ -123,76 +123,92 @@ Related: [event-skb](event-skb.md), [event-chd](event-chd.md) (x2 EXP driver), [
 
 593 user ngừng chi tiền hoàn toàn → khó tìm lý do cụ thể, nhưng kích repay VIP là path tốt nhất vì đã trả 1 lần.
 
+## Core Pillars (nguyên tắc update)
+1. **Fix 2 vấn đề VIP**: repay trong tháng (ARPT 1→3) + repay tháng sau (repeat 17%→50%)
+2. **Không cắn nhau với event đang chạy**: SKB, CHĐ, Trứng, Lazer — VIP bổ sung, không thay thế. SKB+CHĐ = >50% coin out.
+
 ## KPI Target
 
-**Mục tiêu: VIP rev 400M/tháng** (hiện 87.4M, +4.6x)
+**Rev target: 350tr+/tháng** (hiện ~72tr)
 
-Điều kiện đạt (sau ~6 tháng compound):
-- PU mới: 900/tháng (hiện 724, +24%)
-- Repeat rate: 50% (hiện 17%)
-- Frequency: 3 lần/tháng (mua liên tục)
+| Metric | Hiện tại | KPI |
+|--------|----------|-----|
+| Rev/tháng | ~72tr | 350tr+ |
+| PU | 724 | 1,162 |
+| New PU | 594 (82%) | 800 (+200) |
+| Repay next month | 130 (17%) | 362 (+232) |
+| ARPPU | 100k | 300k |
+| ARPT | 1.0 | 3 |
 
-**2 KPI chính cần fix:**
-1. **Repay trong tháng** — user mua VIP kỳ 2, 3 trong cùng tháng (17% → 50%)
-2. **Repay next month** — user tháng trước quay lại mua tháng sau
+**Model compound** (800 PU mới, new retain 50%, old retain 80%, new×2 + old×3):
 
-Model compound (900 PU mới/tháng, repeat 50%, freq 3):
+| Tháng | PU mới | Old retained | Active PU | Lượt | Rev |
+|-------|--------|-------------|-----------|------|-----|
+| T1 | 800 | 362 (50%×724) | 1,162 | 2,686 | 269M |
+| T2 | 800 | 690 | 1,490 | 3,670 | 367M |
+| T3 | 800 | 952 | 1,752 | 4,456 | 446M |
+| T4 | 800 | 1,162 | 1,962 | 5,086 | 509M |
+| T6+ | 800 | ~2,000 | ~2,800 | ~7,600 | ~760M |
 
-| Tháng | PU mới | Retained | Total lượt mua | Rev |
-|-------|--------|----------|---------------|-----|
-| T1 | 900 | 0 | 900 | 90M |
-| T3 | 900 | 675 | 2,925 | 292.5M |
-| T5 | 900 | 860 | 3,480 | 348M |
-| T6+ | 900 | 900 | 4,050 | **405M** |
+> Old retain 80% → pool tích lũy theo thời gian, converge ~2,000. Đạt 350M ngay T2.
 
-## Đề xuất Solution (chưa chốt)
+## Solution: VIP Level System (chưa chốt — cần debate trước production)
 
-### S1: VIP Streak Reward (tăng repay trong tháng + next month)
-Mua VIP liên tục → reward tăng dần, ngừng mua = reset streak.
+### Rules
+- VIP có 5 cấp (Lv1-Lv5). Mỗi cấp unlock quyền lợi mới
+- Giá 100k/10 ngày (tất cả level)
+- Hết 10 ngày → countdown 1 ngày để nạp level tiếp. Không nạp → reset Lv0
+- Lv5: countdown 3 ngày (ưu đãi core)
+- Timeline 10 ngày đi riêng theo user
+- Chỉ thấy benefit level tiếp theo +1 (Lv1 thấy quà Lv2, Lv3+ bị ẩn)
 
-| Kỳ | Bonus thêm (ngoài reward hiện tại) |
-|----|-------------------------------------|
-| Kỳ 1 | Không (như hiện tại) |
-| Kỳ 2 | +200 GEM |
-| Kỳ 3 | +500 GEM + 1 rương cam |
-| Kỳ 4+ | +500 GEM + chọn 1 thẻ A |
+### Rule đặc biệt
+- **Lapsed**: qua 1 mùa không nạp → popup KM skip lên Lv2 (1 lần/user, anti-gaming)
+- **New user**: offer lần đầu (giá KM hoặc bonus), rương cam Lv1 hook
 
-- Kỳ 3 là milestone lớn → kích đủ 3 lần/tháng
-- Streak reset = sunk cost → giữ chân sang tháng sau
+### Config Benefit
 
-### S2: VIP Comeback Offer (kích repay window 0-15 ngày)
-User hết VIP → popup trong 15 ngày:
-- Ngày 1-3: Nhắc streak ("Mua lại ngay để giữ streak")
-- Ngày 7-10: Giảm giá 70k (nếu chưa mua lại)
-- Sau 15 ngày: Hết offer, streak reset
+| Lv | GEM | R.Vàng | Chìa khóa | R.Tím | EXP | R.Cam | Cosmetic | DKXX | Upgrade R | Bonus %G |
+|----|-----|--------|-----------|-------|-----|-------|----------|------|-----------|---------|
+| 1 | 1,500G | 50 | 10 | 5 | — | 5 | Khung+FX Vip1 | — | — | +5% |
+| 2 | 1,500G | 50 | 10 | 10 | x2 | 5 | Khung+FX Vip2 | +3% | — | +10% |
+| 3 | 1,500G | 50 | 10 | 15 | x3 | 10 | Khung+FX Vip3 | +5% | Unlock | +15% |
+| 4 | 1,500G | 50 | 10 | 20 | x3 | 10 | Khung+FX Vip4 | +8% | +10% rate | +15% |
+| 5 | 1,500G | 50 | 10 | 30 | x4 | 15 | Frame lobby | +10% | +15% rate | +25% |
 
-### S3: VIP benefit theo segment (tăng PU mới → 900)
-Cho user chọn 1 trong 3 benefit chính khi mua:
+Chia đều 10 ngày. Rương tím + rương cam tăng dần theo level.
 
-| Benefit | Target segment | Giá trị |
-|---------|---------------|---------|
-| Resource pack (gold, thẻ B/A) | New (<30d) | Boost nhanh đầu game |
-| Gacha ticket + resource | Mid (30-180d) | Đang build roster |
-| x2 EXP (như hiện tại) | Core (>180d) | Max NV mới nhanh |
+### Key Moves
 
-### S4: VIP Level System — loss aversion (từ debate)
+**Bonus %G: Shop trung → VIP exclusive**
+- Hiện tại shop trung bonus max 20% (miễn phí) → chuyển thành VIP exclusive (5%→25%)
+- So sánh whale (nạp 18,500G = 1.85M/tháng):
 
-**Core mechanic**: Mỗi lần mua VIP liên tiếp = +1 Level. Max Lv5. Hết hạn mà không mua tiếp = **reset về Lv0, mất hết benefit**.
+| | Shop (hiện tại) | VIP Lv5 |
+|--|----------------|---------|
+| Whale nạp/tháng | 18,500G (1.85M) | 18,500G (1.85M) |
+| Bonus rate | 20% | 25% |
+| GEM bonus | 3,700G | 4,625G |
+| Giá trị bonus | 370k | 462.5k |
+| Chi phí user | 0đ | 300k |
+| **Net user** | **+370k free** | **+162.5k** |
+| **Game thu** | **0đ** | **+300k cash** |
 
-| VIP Level | Yêu cầu | Benefit tích lũy (cộng dồn từ level trước) |
-|-----------|---------|---------------------------------------------|
-| Lv1 | 1 lần mua | x2 EXP + 1,500G + reward cơ bản (như hiện tại) |
-| Lv2 | 2 lần liên tiếp (20 ngày) | +chọn 1 reward hàng ngày (thẻ nguyên liệu / chìa khóa / G) thay rương random |
-| Lv3 | 3 lần liên tiếp (30 ngày) | +giảm 5% giá event SKB/CHĐ |
-| Lv4 | 4 lần liên tiếp (40 ngày) | +1 slot Hidden Shop thêm/ngày + exclusive cosmetic (frame/avatar) |
-| Lv5 | 5 lần liên tiếp (50 ngày) | +giảm 10% giá event (thay 5%) + x3 EXP + 1 vé chọn skill trang sức/tháng |
+→ User mất 370k free nhưng được 462.5k với 300k cost → vẫn lời 92.5k + toàn bộ VIP benefit
+→ Game thu thêm 300k cash/whale/tháng, bonus %G là virtual currency (cost = 0)
 
-**Concern: giảm giá event có mất rev?**
-- Worst case: 500 VIP Lv5 × giảm 10% × 5tr spend/tháng = -250M event rev
-- Bù: 500 × 3 lần × 100k = +150M VIP rev + retention tăng → lifetime value cao hơn
-- Net: cần tính kỹ với data thực
+**Upgrade R: Mở thêm đường qua VIP**
+- Hiện chỉ CLB hạng B+ mới upgrade R → chỉ core/old user
+- VIP Lv3+ cũng unlock Upgrade R → mở thêm đường cho mid user, không gating mới
 
-### Đề xuất bổ sung (park)
-- [ ] **Thêm gói VIP Lite 50k** — cho new user dễ vào
-- [ ] **Thêm gói VIP Pro 300k** — cho whale
-- [ ] **Protect core 160 whale** — exclusive reward cho heavy spender
+### Loss Aversion — mất VIP đau 3 chiều
+- **Social**: Mất khung, hiệu ứng tung XX → bạn bè thấy
+- **Gameplay**: Mất DKXX boost + x3/x4 EXP → chơi tệ hẳn đi
+- **Economy**: Mất Bonus %G + Upgrade R → nạp đắt hơn
+
+### Cần debate thêm trước production
+- [ ] DKXX boost balance: +10% Lv5 có ảnh hưởng competitive quá không?
+- [ ] Countdown 1 ngày: quá gắt cho casual? Cần 2 ngày?
+- [ ] Bonus %G migration communication plan
+- [ ] Rương cam/tím value thực tế bao nhiêu? Có quá generous ở Lv5?
+- [ ] A/B test plan: test segment nào trước?

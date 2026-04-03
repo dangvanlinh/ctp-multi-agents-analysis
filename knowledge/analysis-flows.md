@@ -45,4 +45,15 @@ Sau khi phân tích xong vấn đề, KHÔNG đi thẳng vào solution. Phải e
 
 Nguyên tắc: Không bao giờ design solution mà chưa biết impact. Số nhỏ + effort lớn = lãng phí.
 
+## Flow 7: Define Metric Before Query (BẮT BUỘC)
+Trước khi query bất kỳ metric nào, PHẢI define rõ rồi confirm.
+
+1. **Define**: Metric đo gì? Window tính từ đâu (first pay, last pay, fixed date)? Đếm event gì? Cohort chia theo gì?
+2. **Nếu có nhiều cách đo** → trình bày tất cả cách lên front, giải thích khác biệt, để user chọn. KHÔNG chọn hộ.
+3. **Confirm** với user trước khi chạy query
+4. **Lưu definition** cùng với SQL + result trong data/
+5. **Không flip-flop**: Nếu bị challenge → quay lại definition, không đổi kết luận vì áp lực
+
+Nguyên tắc: Query trước giải thích sau = source of confusion. Define trước query sau = clear và reproducible.
+
 ## (Anh thêm flow phân tích riêng vào đây)

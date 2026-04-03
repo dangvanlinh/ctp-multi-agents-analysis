@@ -242,7 +242,12 @@ Skill đến từ 4 nguồn: nhân vật, trang sức, pet, và clan skill. Tấ
 
 ### Card Upgrade System
 - Cards nâng cấp bằng gold + thẻ nhân vật làm nguyên liệu
-- Upgrade R (rare) thường cần CLB (collectible) requirement
+- **Upgrade R**: yêu cầu user ở CLB (Câu Lạc Bộ) hạng B trở lên. Hiện tại chỉ có 2 cách unlock: CLB B+ hoặc VIP (đề xuất mới)
+- CLB hạng B = điều kiện endgame, chỉ old/core user mới đạt được
+
+### Bonus %G khi nạp
+- Hiện tại: Shop trung có bonus %G khi nạp GEM, max 20%
+- Đề xuất: Remove bonus G khỏi shop trung, chuyển thành exclusive VIP benefit (5% → 15% theo VIP level)
 
 
 ## P2W Philosophy
