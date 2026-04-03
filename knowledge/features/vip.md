@@ -124,8 +124,39 @@ Related: [event-skb](event-skb.md), [event-chd](event-chd.md) (x2 EXP driver), [
 593 user ngừng chi tiền hoàn toàn → khó tìm lý do cụ thể, nhưng kích repay VIP là path tốt nhất vì đã trả 1 lần.
 
 ## Đề xuất (chưa chốt)
-- [ ] **Segment VIP thành nhiều tier/gói** — mỗi tier reward khác, tier thấp cho new user dễ vào
-- [ ] **VIP reward chọn được** — user tự chọn benefit chính (x2 EXP / resource pack / gacha ticket)
-- [ ] **VIP streak/loyalty** — mua liên tục reward tăng dần, tạo sunk cost
-- [ ] **Protect core 160 user** — exclusive reward cho heavy spender, giảm dependency
-- [ ] **Thay rương random** bằng reward "chọn được" hoặc "đảm bảo chất lượng"
+
+### Đề xuất chính: VIP Level System (loss aversion)
+
+**Core mechanic**: Mỗi lần mua VIP liên tiếp = +1 Level. Max Lv5. Hết hạn mà không mua tiếp = **reset về Lv0, mất hết benefit**. User phải sub liên tục để giữ level.
+
+| VIP Level | Yêu cầu | Benefit tích lũy (cộng dồn từ level trước) |
+|-----------|---------|---------------------------------------------|
+| Lv1 | 1 lần mua | x2 EXP + 1,500G + reward cơ bản (như hiện tại) |
+| Lv2 | 2 lần liên tiếp (20 ngày) | +chọn 1 reward hàng ngày (thẻ nguyên liệu / chìa khóa / G) thay rương random |
+| Lv3 | 3 lần liên tiếp (30 ngày) | +giảm 5% giá event SKB/CHĐ |
+| Lv4 | 4 lần liên tiếp (40 ngày) | +1 slot Hidden Shop thêm/ngày + exclusive cosmetic (frame/avatar) |
+| Lv5 | 5 lần liên tiếp (50 ngày) | +giảm 10% giá event (thay 5%) + x3 EXP + 1 vé chọn skill trang sức/tháng |
+
+**Tại sao tạo "loss":**
+- Lv3+: Whale nạp 10tr cho R → giảm 10% = tiết kiệm 1tr. Bỏ VIP 100k để mất 1tr discount = không logic.
+- Lv4: Mất exclusive cosmetic → bạn bè thấy → social pressure
+- Lv5: Từ x3 EXP quay về x1 = cảm giác chậm cực kỳ
+- 50 ngày effort để đạt Lv5 → reset = mất trắng → không ai muốn bỏ
+
+**KPI Target:**
+
+| Metric | Hiện tại | Target | Logic |
+|--------|----------|--------|-------|
+| Rev/tháng | 87M | **500M** | ~2,500 PU × ~2.5 lần/tháng × mix tier |
+| Renewal rate | 17% | **60-70%** | VIP Level = sunk cost, reset = mất hết |
+| VIP share | 6% | **~30%** | Từ sản phẩm phụ thành pillar |
+
+**Concern: giảm giá event có mất rev?**
+- Worst case: 500 VIP Lv5 × giảm 10% × 5tr spend/tháng = -250M event rev
+- Bù: 500 × 3 lần × 100k = +150M VIP rev + retention tăng → lifetime value cao hơn
+- Net: cần tính kỹ với data thực, nhưng hướng là bù được hoặc positive
+
+### Các đề xuất bổ sung
+- [ ] **Thêm gói VIP Lite 50k** — cho new user dễ vào, VIP Level tích lũy chậm hơn
+- [ ] **Thêm gói VIP Pro 300k** — cho whale, VIP Level nhanh hơn
+- [ ] **Protect core 160 whale** — exclusive reward cho heavy spender
