@@ -212,3 +212,8 @@ Chia đều 10 ngày. Rương tím + rương cam tăng dần theo level.
 - [ ] Bonus %G migration communication plan
 - [ ] Rương cam/tím value thực tế bao nhiêu? Có quá generous ở Lv5?
 - [ ] A/B test plan: test segment nào trước?
+
+### Art & UI Tasks
+- [ ] Ref art các cấp thẻ VIP (Lv1-5), UI VIP thay đổi theo level
+- [ ] Ref khung quà trong UI VIP
+- [ ] Ref cosmetic: khung avatar, effect tung XX, khung deco NV ở lobby, BG lobby
