@@ -123,11 +123,61 @@ Related: [event-skb](event-skb.md), [event-chd](event-chd.md) (x2 EXP driver), [
 
 593 user ngừng chi tiền hoàn toàn → khó tìm lý do cụ thể, nhưng kích repay VIP là path tốt nhất vì đã trả 1 lần.
 
-## Đề xuất (chưa chốt)
+## KPI Target
 
-### Đề xuất chính: VIP Level System (loss aversion)
+**Mục tiêu: VIP rev 400M/tháng** (hiện 87.4M, +4.6x)
 
-**Core mechanic**: Mỗi lần mua VIP liên tiếp = +1 Level. Max Lv5. Hết hạn mà không mua tiếp = **reset về Lv0, mất hết benefit**. User phải sub liên tục để giữ level.
+Điều kiện đạt (sau ~6 tháng compound):
+- PU mới: 900/tháng (hiện 724, +24%)
+- Repeat rate: 50% (hiện 17%)
+- Frequency: 3 lần/tháng (mua liên tục)
+
+**2 KPI chính cần fix:**
+1. **Repay trong tháng** — user mua VIP kỳ 2, 3 trong cùng tháng (17% → 50%)
+2. **Repay next month** — user tháng trước quay lại mua tháng sau
+
+Model compound (900 PU mới/tháng, repeat 50%, freq 3):
+
+| Tháng | PU mới | Retained | Total lượt mua | Rev |
+|-------|--------|----------|---------------|-----|
+| T1 | 900 | 0 | 900 | 90M |
+| T3 | 900 | 675 | 2,925 | 292.5M |
+| T5 | 900 | 860 | 3,480 | 348M |
+| T6+ | 900 | 900 | 4,050 | **405M** |
+
+## Đề xuất Solution (chưa chốt)
+
+### S1: VIP Streak Reward (tăng repay trong tháng + next month)
+Mua VIP liên tục → reward tăng dần, ngừng mua = reset streak.
+
+| Kỳ | Bonus thêm (ngoài reward hiện tại) |
+|----|-------------------------------------|
+| Kỳ 1 | Không (như hiện tại) |
+| Kỳ 2 | +200 GEM |
+| Kỳ 3 | +500 GEM + 1 rương cam |
+| Kỳ 4+ | +500 GEM + chọn 1 thẻ A |
+
+- Kỳ 3 là milestone lớn → kích đủ 3 lần/tháng
+- Streak reset = sunk cost → giữ chân sang tháng sau
+
+### S2: VIP Comeback Offer (kích repay window 0-15 ngày)
+User hết VIP → popup trong 15 ngày:
+- Ngày 1-3: Nhắc streak ("Mua lại ngay để giữ streak")
+- Ngày 7-10: Giảm giá 70k (nếu chưa mua lại)
+- Sau 15 ngày: Hết offer, streak reset
+
+### S3: VIP benefit theo segment (tăng PU mới → 900)
+Cho user chọn 1 trong 3 benefit chính khi mua:
+
+| Benefit | Target segment | Giá trị |
+|---------|---------------|---------|
+| Resource pack (gold, thẻ B/A) | New (<30d) | Boost nhanh đầu game |
+| Gacha ticket + resource | Mid (30-180d) | Đang build roster |
+| x2 EXP (như hiện tại) | Core (>180d) | Max NV mới nhanh |
+
+### S4: VIP Level System — loss aversion (từ debate)
+
+**Core mechanic**: Mỗi lần mua VIP liên tiếp = +1 Level. Max Lv5. Hết hạn mà không mua tiếp = **reset về Lv0, mất hết benefit**.
 
 | VIP Level | Yêu cầu | Benefit tích lũy (cộng dồn từ level trước) |
 |-----------|---------|---------------------------------------------|
@@ -137,26 +187,12 @@ Related: [event-skb](event-skb.md), [event-chd](event-chd.md) (x2 EXP driver), [
 | Lv4 | 4 lần liên tiếp (40 ngày) | +1 slot Hidden Shop thêm/ngày + exclusive cosmetic (frame/avatar) |
 | Lv5 | 5 lần liên tiếp (50 ngày) | +giảm 10% giá event (thay 5%) + x3 EXP + 1 vé chọn skill trang sức/tháng |
 
-**Tại sao tạo "loss":**
-- Lv3+: Whale nạp 10tr cho R → giảm 10% = tiết kiệm 1tr. Bỏ VIP 100k để mất 1tr discount = không logic.
-- Lv4: Mất exclusive cosmetic → bạn bè thấy → social pressure
-- Lv5: Từ x3 EXP quay về x1 = cảm giác chậm cực kỳ
-- 50 ngày effort để đạt Lv5 → reset = mất trắng → không ai muốn bỏ
-
-**KPI Target:**
-
-| Metric | Hiện tại | Target | Logic |
-|--------|----------|--------|-------|
-| Rev/tháng | 87M | **500M** | ~2,500 PU × ~2.5 lần/tháng × mix tier |
-| Renewal rate | 17% | **60-70%** | VIP Level = sunk cost, reset = mất hết |
-| VIP share | 6% | **~30%** | Từ sản phẩm phụ thành pillar |
-
 **Concern: giảm giá event có mất rev?**
 - Worst case: 500 VIP Lv5 × giảm 10% × 5tr spend/tháng = -250M event rev
 - Bù: 500 × 3 lần × 100k = +150M VIP rev + retention tăng → lifetime value cao hơn
-- Net: cần tính kỹ với data thực, nhưng hướng là bù được hoặc positive
+- Net: cần tính kỹ với data thực
 
-### Các đề xuất bổ sung
-- [ ] **Thêm gói VIP Lite 50k** — cho new user dễ vào, VIP Level tích lũy chậm hơn
-- [ ] **Thêm gói VIP Pro 300k** — cho whale, VIP Level nhanh hơn
+### Đề xuất bổ sung (park)
+- [ ] **Thêm gói VIP Lite 50k** — cho new user dễ vào
+- [ ] **Thêm gói VIP Pro 300k** — cho whale
 - [ ] **Protect core 160 whale** — exclusive reward cho heavy spender
