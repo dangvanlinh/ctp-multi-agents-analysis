@@ -164,17 +164,17 @@ Related: [event-skb](event-skb.md), [event-chd](event-chd.md) (x2 EXP driver), [
 
 ### Rule đặc biệt
 - **Lapsed**: qua 1 mùa không nạp → popup KM skip lên Lv2 (1 lần/user, anti-gaming)
-- **New user**: offer lần đầu (giá KM hoặc bonus), rương cam Lv1 hook
+- **New user**: lần mua đầu tiên trong đời → skip lên Lv2 ngay (giá 100k). Cần UI mockup.
 
 ### Config Benefit
 
 | Lv | GEM | R.Vàng | Chìa khóa | R.Tím | EXP | R.Cam | Cosmetic | DKXX | Upgrade R | Bonus %G |
 |----|-----|--------|-----------|-------|-----|-------|----------|------|-----------|---------|
-| 1 | 1,500G | 50 | 10 | 5 | — | 5 | Khung+FX Vip1 | — | — | +5% |
-| 2 | 1,500G | 50 | 10 | 10 | x2 | 5 | Khung+FX Vip2 | +3% | — | +10% |
-| 3 | 1,500G | 50 | 10 | 15 | x3 | 10 | Khung+FX Vip3 | +5% | Unlock | +15% |
-| 4 | 1,500G | 50 | 10 | 20 | x3 | 10 | Khung+FX Vip4 | +8% | +10% rate | +15% |
-| 5 | 1,500G | 50 | 10 | 30 | x4 | 15 | Frame lobby | +10% | +15% rate | +25% |
+| 1 | 1,500G | 50 | 10 | 5 | — | 5 | Khung+FX Vip1 | — | — | TBD |
+| 2 | 1,500G | 50 | 10 | 10 | x2 | 10 | Khung+FX Vip2 | +3% | — | TBD |
+| 3 | 1,500G | 50 | 10 | 15 | x3 | 15 | Khung+FX Vip3 | +5% | Unlock | TBD |
+| 4 | 1,500G | 50 | 10 | 20 | x3 | 15 | Khung+FX Vip4 | +8% | +10% rate | TBD |
+| 5 | 1,500G | 50 | 10 | 30 | x4 | 20 | Frame lobby | +10% | +15% rate | TBD |
 
 Chia đều 10 ngày. Rương tím + rương cam tăng dần theo level.
 
