@@ -564,7 +564,11 @@
           <div class="progress-label">Còn lại 9 ngày 20:20:30s</div>
         </div>
 
-        <!-- Nút kích hoạt ẩn khi còn >3 ngày -->
+        <!-- Nút claim quà — popup khi login -->
+        <div class="btn-activate" style="background:linear-gradient(180deg, #2D6B1A, #1A4A0E); border-color:#4A9E2F;">
+          Nhận quà hôm nay
+          <span class="btn-sub" style="color:#7EC850;">💎 83G + 📦 5 rương + 💜 1 tím + 🔑 1 chìa</span>
+        </div>
       </div>
     </div>
 
@@ -733,10 +737,16 @@
           <div style="font-size:9px; color:#FF8888; line-height:1.4;">Mất: x2 EXP, +3% DKXX, Khung VIP 2, Bonus +10% G, streak VIP</div>
         </div>
 
-        <!-- Nút kích hoạt — hiện khi ≤3 ngày -->
-        <div class="btn-activate" style="background:linear-gradient(180deg, #5C1A0A, #3D0E05); border-color:#FF4444; animation: pulse 1.5s infinite;">
+        <!-- Nút claim quà trước -->
+        <div class="btn-activate" style="background:linear-gradient(180deg, #2D6B1A, #1A4A0E); border-color:#4A9E2F;">
+          Nhận quà hôm nay
+          <span class="btn-sub" style="color:#7EC850;">💎 83G + 📦 5 rương + 💜 1 tím + 🔑 1 chìa</span>
+        </div>
+
+        <!-- Nút kích hoạt — disabled cho tới khi claim -->
+        <div class="btn-activate" style="background:linear-gradient(180deg, #333, #222); border-color:#555; opacity:0.5; cursor:not-allowed;">
           Kích hoạt Level 3
-          <span class="btn-sub" style="color:#FF8888;">100,000đ — Giữ streak + lên level</span>
+          <span class="btn-sub" style="color:#888;">Nhận quà trước để mở khóa</span>
         </div>
       </div>
     </div>
@@ -962,6 +972,8 @@
 
   </div>
 </div>
+
+<!-- screens 5+6 removed -->
 
 <style>
   @keyframes pulse {
