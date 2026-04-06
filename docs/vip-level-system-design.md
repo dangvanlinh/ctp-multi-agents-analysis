@@ -1,8 +1,9 @@
 # VIP Level System — Design Doc
 
-> Status: **Draft — cần review trước production**
+> Status: **Tạm chốt — 14 decisions done, 3 items parked**
 > Date: 2026-04-06
 > UI Mockup: `vip_ui_mockup.html`
+> Word doc: `data/VIP_Design_Doc_v4.docx`
 
 ---
 

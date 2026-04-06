@@ -152,21 +152,19 @@ Related: [event-skb](event-skb.md), [event-chd](event-chd.md) (x2 EXP driver), [
 
 > Old retain 80% → pool tích lũy theo thời gian, converge ~2,000. Đạt 350M ngay T2.
 
-## Solution: VIP Level System (chưa chốt — cần debate trước production)
+## Solution: VIP Level System
 
-### Rules
-- VIP có 5 cấp (Lv1-Lv5). Mỗi cấp unlock quyền lợi mới
-- Giá 100k/10 ngày (tất cả level)
-- Hết 10 ngày → countdown 1 ngày để nạp level tiếp. Không nạp → reset Lv0
-- Lv5: countdown 3 ngày (ưu đãi core)
-- Timeline 10 ngày đi riêng theo user
-- Chỉ thấy benefit level tiếp theo +1 (Lv1 thấy quà Lv2, Lv3+ bị ẩn)
+> Design doc chi tiết: `docs/vip-level-system-design.md`
+> UI mockup: `vip_ui_mockup.html`
+> Word doc cho dev: `data/VIP_Design_Doc_v4.docx`
 
-### Rule đặc biệt
-- **Lapsed**: qua 1 mùa không nạp → popup KM skip lên Lv2 (1 lần/user, anti-gaming)
-- **New user**: lần mua đầu tiên trong đời → skip lên Lv2 ngay (giá 100k). Cần UI mockup.
+### Core Mechanic (ĐÃ CHỐT)
+- VIP có 5 cấp (Lv1-Lv5). Giá 100k/10 ngày tất cả level
+- Mua liên tiếp = +1 Level. Không mua + hết 3 ngày grace = Reset Lv0
+- VIP tính theo ngày (reset 00:00), không theo giờ
+- Chỉ thấy benefit level tiếp theo +1 (tạo curiosity)
 
-### Config Benefit
+### Config Benefit (ĐÃ CHỐT)
 
 | Lv | GEM | R.Vàng | Chìa khóa | R.Tím | EXP | R.Cam | Cosmetic | DKXX | Upgrade R | Bonus %G |
 |----|-----|--------|-----------|-------|-----|-------|----------|------|-----------|---------|
@@ -176,44 +174,44 @@ Related: [event-skb](event-skb.md), [event-chd](event-chd.md) (x2 EXP driver), [
 | 4 | 1,500G | 50 | 10 | 20 | x3 | 15 | Khung+FX Vip4 | +8% | +10% rate | TBD |
 | 5 | 1,500G | 50 | 10 | 30 | x4 | 20 | Frame lobby | +10% | +15% rate | TBD |
 
-Chia đều 10 ngày. Rương tím + rương cam tăng dần theo level.
+### Benefit Delivery (ĐÃ CHỐT)
+- **Daily Claim** (phải login nhận, mất nếu không): GEM, rương vàng, rương tím (đều 10 ngày), rương cam (5 ngày cuối), chìa khóa
+- **Auto-Active** (mua VIP là có): EXP, DKXX, Upgrade R, Cosmetic, Bonus %G
 
-### Key Moves
+### Edge Cases Đã Chốt (14 decisions)
+1. **Mua trước hạn**: Nhận hết quà còn lại + lên level ngay
+2. **Mua nhiều lần liền**: Bắt buộc 1 lần = 1 level (nhảy level chỉ cho offer)
+3. **Benefit delivery**: Chia 2 segment (daily claim cho new, auto-active cho whale)
+4. **Timezone**: Tính theo ngày, reset 00:00
+5. **Grace period**: 3 ngày sau hết VIP, không quà, không buff
+6. **Reset level**: Reset Lv0 (mất hết) — loss aversion core mechanic
+7. **Lapsed rule**: PARK — chờ data live
+8. **Upgrade R khi VIP hết**: Khóa ngay (instant action)
+9. **CLB B + VIP**: Cộng dồn bonus rate
+10. **Arrow navigation**: Trái xem đã qua, phải +1 rồi "???", Lv5="Max Level"
+11. **Noti**: Không push noti, dùng in-game claim UI
+12. **Nút Kích Hoạt**: 7 states — chưa claim thì chưa cho renew
+13. **Rương tím/cam schedule**: Tím đều 10 ngày, cam 5 ngày cuối
+14. **New user offer**: ĐÃ CHỐT — lần đầu mua trong đời → Lv2 ngay (100k). Cần UI mockup.
 
-**Bonus %G: Shop trung → VIP exclusive**
-- Hiện tại shop trung bonus max 20% (miễn phí) → chuyển thành VIP exclusive (5%→25%)
-- So sánh whale (nạp 18,500G = 1.85M/tháng):
+### Upgrade R (ĐÃ CHỐT)
+- CLB B+ hoặc VIP Lv3+ → unlock Upgrade R
+- VIP hết → khóa ngay, thẻ đã upgrade giữ nguyên
+- CLB B + VIP → cộng dồn rate
 
-| | Shop (hiện tại) | VIP Lv5 |
-|--|----------------|---------|
-| Whale nạp/tháng | 18,500G (1.85M) | 18,500G (1.85M) |
-| Bonus rate | 20% | 25% |
-| GEM bonus | 3,700G | 4,625G |
-| Giá trị bonus | 370k | 462.5k |
-| Chi phí user | 0đ | 300k |
-| **Net user** | **+370k free** | **+162.5k** |
-| **Game thu** | **0đ** | **+300k cash** |
-
-→ User mất 370k free nhưng được 462.5k với 300k cost → vẫn lời 92.5k + toàn bộ VIP benefit
-→ Game thu thêm 300k cash/whale/tháng, bonus %G là virtual currency (cost = 0)
-
-**Upgrade R: Mở thêm đường qua VIP**
-- Hiện chỉ CLB hạng B+ mới upgrade R → chỉ core/old user
-- VIP Lv3+ cũng unlock Upgrade R → mở thêm đường cho mid user, không gating mới
-
-### Loss Aversion — mất VIP đau 3 chiều
-- **Social**: Mất khung, hiệu ứng tung XX → bạn bè thấy
-- **Gameplay**: Mất DKXX boost + x3/x4 EXP → chơi tệ hẳn đi
+### Loss Aversion — 3 chiều
+- **Social**: Mất khung, FX tung XX → bạn bè thấy
+- **Gameplay**: Mất DKXX + x3/x4 EXP → chơi tệ đi
 - **Economy**: Mất Bonus %G + Upgrade R → nạp đắt hơn
 
-### Cần debate thêm trước production
-- [ ] DKXX boost balance: +10% Lv5 có ảnh hưởng competitive quá không?
-- [ ] Countdown 1 ngày: quá gắt cho casual? Cần 2 ngày?
-- [ ] Bonus %G migration communication plan
-- [ ] Rương cam/tím value thực tế bao nhiêu? Có quá generous ở Lv5?
-- [ ] A/B test plan: test segment nào trước?
+### CHƯA CHỐT
+- [ ] **Bonus %G**: Chưa chốt migration từ shop trung. Data: 65% GEM payer chưa VIP, shop hiện 5-20% free. Hướng: giữ shop 10% flat + VIP thêm on top.
+- [ ] **Lapsed rule**: Park — chờ data live. Default: lapsed mua lại = Lv1.
+- [ ] DKXX balance, A/B test plan
 
 ### Art & UI Tasks
-- [ ] Ref art các cấp thẻ VIP (Lv1-5), UI VIP thay đổi theo level
+- [ ] Ref art thẻ VIP các cấp, UI thay đổi theo level
 - [ ] Ref khung quà trong UI VIP
-- [ ] Ref cosmetic: khung avatar, effect tung XX, khung deco NV ở lobby, BG lobby
+- [ ] Ref cosmetic: khung avatar, FX tung XX, khung deco NV lobby, BG lobby
+- [ ] Redesign nút VIP ở bottom bar main screen
+- [ ] New user offer popup UI mockup

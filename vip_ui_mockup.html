@@ -861,18 +861,6 @@
           <div class="progress-label" style="color:#FF8888; font-weight:600;">⏰ Reset sau 2 ngày 15:30:00s</div>
         </div>
 
-        <!-- Cảnh báo mất gì -->
-        <div style="width:100%; background:rgba(0,0,0,0.3); border:1px solid #3D2B0A; border-radius:6px; padding:8px;">
-          <div style="font-size:9px; font-weight:700; color:#FF4444; margin-bottom:4px;">Mất nếu không kích hoạt:</div>
-          <div style="font-size:8px; color:#FF8888; line-height:1.5;">
-            ❌ x2 EXP → x1<br>
-            ❌ +3% DKXX → 0%<br>
-            ❌ Khung VIP 2 → mất<br>
-            ❌ Bonus +10% G → 0%<br>
-            ❌ Streak VIP → reset
-          </div>
-        </div>
-
         <!-- Nút kích hoạt — urgent -->
         <div class="btn-activate" style="background:linear-gradient(180deg, #5C1A0A, #3D0E05); border-color:#FF4444; animation: pulse 1.5s infinite;">
           Kích hoạt Level 3
@@ -881,13 +869,84 @@
       </div>
     </div>
 
-    <!-- RIGHT: Chỉ hiển thị thông báo reset Lv0 -->
-    <div class="panel-right" style="border-color:#5C1A1E; display:flex; align-items:center; justify-content:center;">
-      <div style="text-align:center; padding:40px;">
-        <div style="font-size:64px; margin-bottom:16px;">😢</div>
-        <div style="font-size:24px; font-weight:800; color:#FF4444; margin-bottom:8px;">VIP sẽ reset về Level 0</div>
-        <div style="font-size:14px; color:#FF8888; line-height:1.6;">Mất toàn bộ quyền lợi VIP<br>nếu không kích hoạt trong thời gian còn lại</div>
+    <!-- Navigation arrows -->
+    <div class="nav-arrow left">‹</div>
+    <div class="nav-arrow right">›</div>
+
+    <!-- RIGHT: Benefits — tất cả khóa -->
+    <div class="panel-right" style="border-color:#5C1A1E;">
+      <div class="panel-header" style="background:linear-gradient(180deg, #3D1A0A, #2A0E05); border-color:#5C1A1E;">Vip 2 Benefit — <span style="color:#FF4444;">Đã hết hạn</span></div>
+      <div class="benefit-grid">
+        <div class="benefit-cell locked">
+          <div class="bc-icon gem">💎<span class="badge-num">1.5K</span></div>
+          <div class="bc-info"><div class="bc-name">G Xanh</div><div class="bc-desc">83G/ngày × 10 ngày</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon chest-gold">📦<span class="badge-num">50</span></div>
+          <div class="bc-info"><div class="bc-name">Rương vàng</div><div class="bc-desc">5 rương/ngày</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon key">🔑<span class="badge-num">10</span></div>
+          <div class="bc-info"><div class="bc-name">Chìa khóa</div><div class="bc-desc">Đục lỗ trang sức</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon exp">⚡</div>
+          <div class="bc-info"><div class="bc-name">X2 EXP</div><div class="bc-desc">Nhân đôi EXP nhân vật</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon chest-orange">🟠<span class="badge-num">10</span></div>
+          <div class="bc-info"><div class="bc-name">Rương cam</div><div class="bc-desc">Rương phần thưởng</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon chest-purple">💜<span class="badge-num">10</span></div>
+          <div class="bc-info"><div class="bc-name">Rương tím</div><div class="bc-desc">10 rương/kỳ VIP</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon title">👑</div>
+          <div class="bc-info"><div class="bc-name">VIP 2 Title</div><div class="bc-desc">Khung avatar + FX tung XX</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon dkxx">🎲</div>
+          <div class="bc-info"><div class="bc-name">+3% DKXX</div><div class="bc-desc">Tăng điều khiển XX</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon bonus">💰</div>
+          <div class="bc-info"><div class="bc-name">Bonus +10% G</div><div class="bc-desc">Nạp GEM thêm 10%</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon upgrade">⬆️</div>
+          <div class="bc-info"><div class="bc-name">Unlock Upgrade R</div><div class="bc-desc">Level 3</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon uprate">📈</div>
+          <div class="bc-info"><div class="bc-name">+10% Upgrade R</div><div class="bc-desc">Level 4</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon" style="background:linear-gradient(135deg,#555,#333);">❓</div>
+          <div class="bc-info"><div class="bc-name">???</div><div class="bc-desc">Level 5</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
       </div>
+      <div class="level-dots">
+        <div class="level-dot unlocked"></div>
+        <div class="level-dot" style="background:#FF4444; border-color:#FF4444; box-shadow:0 0 6px rgba(255,68,68,0.5);"></div>
+        <div class="level-dot"></div>
+        <div class="level-dot"></div>
+        <div class="level-dot"></div>
+      </div>
+      <div class="next-hint" style="background:rgba(255,68,68,0.04);">
+        <div class="nh-text" style="color:#FF8888;">Kích hoạt ngay → <b style="color:#FFD700;">Level 3</b> + giữ streak. Không kích hoạt → <b style="color:#FF4444;">Reset Level 0</b></div>
       </div>
     </div>
 
