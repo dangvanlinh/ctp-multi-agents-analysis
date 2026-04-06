@@ -56,4 +56,22 @@ Trước khi query bất kỳ metric nào, PHẢI define rõ rồi confirm.
 
 Nguyên tắc: Query trước giải thích sau = source of confusion. Define trước query sau = clear và reproducible.
 
+## Flow 8: Từ Số Liệu Tới Final Design (end-to-end)
+Flow đầy đủ từ phân tích data tới output design doc cho dev. Áp dụng cho mọi feature update.
+
+1. **Overall Analysis (top-down)** — Nhìn tổng quan metrics game, xác định feature nào có room to improve lớn nhất. KHÔNG nhảy thẳng vào feature.
+2. **Feature Deep-dive** — Đào sâu feature đã chọn: user segments, funnel, cross-spending, root causes. Query data confirm từng giả thuyết.
+3. **KPI Target (Flow 6)** — Estimate impact trước khi design. Set target cụ thể (rev, PU, ARPT). Build compound model. Nếu impact nhỏ → tìm chỗ khác.
+4. **Solution Design** — List tất cả benefit/mechanic có thể. Propose concept. Debate pro/cons. Xác định core pillars (không cắn nhau với hệ thống hiện tại).
+5. **Edge Case Debate** — List tất cả edge cases. Đi từng cái, chốt phương án + pro/cons. Park những cái chưa đủ data.
+6. **UI Mockup** — Design screens theo style game thật. Iterate với feedback.
+7. **Design Doc** — Tổng hợp tất cả decisions vào doc cho dev. Mỗi decision ghi: chốt + pro + con. Phần chưa chốt bôi đỏ cuối cùng. Chèn screenshots.
+8. **Lưu vào Knowledge** — Update feature file + push git. Sẵn sàng cho phiên sau.
+
+**Nguyên tắc xuyên suốt:**
+- Define metric trước khi query (Flow 7)
+- Mỗi decision ghi pro/cons
+- Confirm với user trước khi chốt
+- Không flip-flop khi bị challenge — quay lại definition
+
 ## (Anh thêm flow phân tích riêng vào đây)
