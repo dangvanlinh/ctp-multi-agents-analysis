@@ -3,3 +3,9 @@ __pycache__/
 outputs/
 data/
 .claude/
+
+# Obsidian - workspace files are local-only
+knowledge/.obsidian/workspace.json
+knowledge/.obsidian/workspace-mobile.json
+knowledge/.obsidian/plugins/
+knowledge/.obsidian/themes/

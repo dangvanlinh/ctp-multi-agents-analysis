@@ -1,0 +1,27 @@
+{
+  "collapse-filter": false,
+  "search": "",
+  "showTags": true,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "path:features",
+      "color": { "a": 1, "rgb": 52479 }
+    },
+    {
+      "query": "path:reports",
+      "color": { "a": 1, "rgb": 16750848 }
+    }
+  ],
+  "collapse-display": false,
+  "lineSizeMultiplier": 1,
+  "nodeSizeMultiplier": 1,
+  "collapse-forces": false,
+  "centerStrength": 0.5,
+  "repelStrength": 10,
+  "linkStrength": 1,
+  "linkDistance": 250
+}

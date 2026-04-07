@@ -12,6 +12,10 @@ def load_knowledge(knowledge_dir="knowledge"):
         print(f"⚠️  Không tìm thấy file nào trong {knowledge_dir}/")
         return ""
 
+    # Skip Obsidian-only files (not relevant for agents)
+    skip_files = {"HOME.md"}
+    files = [f for f in files if os.path.basename(f) not in skip_files]
+
     for f in files:
         name = os.path.basename(f)
         with open(f, "r", encoding="utf-8") as fh:
