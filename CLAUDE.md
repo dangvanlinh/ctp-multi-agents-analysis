@@ -58,3 +58,32 @@ When the user asks to update knowledge or add insights:
 - Database: ClickHouse qua Superset SQL Lab API
 - Table chính: `ctp_2025_db.stg_raw_log`
 - Dùng `superset/client.py` để query, cần VPN kết nối
+
+## VPN Connect (CLI)
+Khi query Superset bị timeout (HTTP 000), VPN có thể đã mất. Connect lại qua CLI:
+
+**Tool:** `"C:/Program Files (x86)/OpenVPN Technologies/OpenVPN Client/core/ovpncli.exe"`
+**Profile:** `ovpnc2_vng_com_vn_dynamic_p0598` (VNG PP VPN, server: ovpnc2.vng.com.vn)
+**Username:** `linhdv`
+**Password:** OTP — hết hạn sau ~10 giây, user phải gửi mỗi lần
+
+### Flow reconnect
+```bash
+# Bước 1: Hard disconnect (clear state cũ)
+ovpncli disconnect -h "ovpnc2_vng_com_vn_dynamic_p0598"
+
+# Bước 2: Xin OTP password từ user (nhấn mạnh phải nhanh, 10s hết hạn)
+
+# Bước 3: Connect ngay (1 lệnh, dùng -u -p -d flags)
+ovpncli -u linhdv -p <PASSWORD> -d connect "ovpnc2_vng_com_vn_dynamic_p0598"
+
+# Bước 4: Verify
+ovpncli status
+```
+
+**Lưu ý:**
+- `ovpncli` = `"C:/Program Files (x86)/OpenVPN Technologies/OpenVPN Client/core/ovpncli.exe"`
+- KHÔNG pipe password qua stdin — phải dùng flag `-p`
+- Flag `-d` = auto disconnect trước khi connect
+- Nếu bị `delete_pending` → `disconnect -h` (hard) trước
+- KHÔNG dùng profile `1664358328371.ovpn` (VNG SO VPN, server đã chết)
