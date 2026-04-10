@@ -1,3 +1,13 @@
+---
+feature: Season Pass
+type: subscription
+revenue: 43
+share: 3.1
+status: active
+tags: [confirmed, low-pu]
+related: [vip]
+updated: 2026-04-07
+---
 # Season Pass
 
 Related: [vip](vip.md) (cùng subscription model), [_index](_index.md)

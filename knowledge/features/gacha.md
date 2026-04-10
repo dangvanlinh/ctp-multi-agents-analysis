@@ -1,3 +1,13 @@
+---
+feature: Gacha Thường
+type: gacha
+revenue: 0
+share: 0.4
+status: deprecated
+tags: [confirmed, low-value]
+related: [event-skb, event-chd]
+updated: 2026-04-07
+---
 # Gacha Thường (OpenGacha / GachaPendant)
 
 Related: [event-skb](event-skb.md), [event-chd](event-chd.md) (event thay thế gacha), [_index](_index.md)

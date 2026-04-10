@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIP Level System — Screen 1: Main</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: #111;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    gap: 20px;
+  }
+  .label { font-size: 14px; color: #888; text-transform: uppercase; letter-spacing: 2px; }
+
+  /* Game frame */
+  .game-frame {
+    width: 900px;
+    height: 500px;
+    background: linear-gradient(180deg, #1a0e2e 0%, #0f0a1e 100%);
+    border-radius: 8px;
+    border: 3px solid #8B6914;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(139,105,20,0.3), inset 0 0 60px rgba(0,0,0,0.5);
+  }
+  /* Gold corner ornaments */
+  .game-frame::before, .game-frame::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #C9A84C 20%, #FFD700 50%, #C9A84C 80%, transparent);
+  }
+  .game-frame::before { top: 0; }
+  .game-frame::after { bottom: 0; }
+
+  .main-layout {
+    display: flex;
+    height: 100%;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  /* ===== LEFT PANEL: VIP Info ===== */
+  .panel-left {
+    width: 280px;
+    background: rgba(0,0,0,0.3);
+    border: 2px solid #5C4A1E;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .panel-header {
+    background: linear-gradient(180deg, #3D2B0A, #2A1D08);
+    border-bottom: 2px solid #8B6914;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFD700;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    letter-spacing: 1px;
+  }
+  .panel-body {
+    flex: 1;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* VIP Card */
+  .vip-card {
+    width: 200px;
+    height: 120px;
+    background: linear-gradient(135deg, #1a1a2e, #0d0d1a, #1a1a2e);
+    border: 2px solid #8B6914;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+  .vip-card::before {
+    content: 'DELUXE VIP CARD';
+    position: absolute;
+    top: 8px;
+    font-size: 7px;
+    color: #8B6914;
+    letter-spacing: 2px;
+  }
+  .vip-card .vip-text {
+    font-size: 36px;
+    font-weight: 800;
+    background: linear-gradient(180deg, #FFD700, #C9A84C, #FFD700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+  }
+  .vip-card .vip-sub {
+    font-size: 9px;
+    color: #8B6914;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  /* Info text */
+  .info-box {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid #3D2B0A;
+    border-radius: 6px;
+    padding: 10px;
+    width: 100%;
+  }
+  .info-box .info-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #FFD700;
+    margin-bottom: 4px;
+  }
+  .info-box .info-text {
+    font-size: 10px;
+    color: #B8A47C;
+    line-height: 1.5;
+  }
+
+  /* Countdown in left panel */
+  .countdown-row {
+    width: 100%;
+    background: rgba(255,215,0,0.06);
+    border: 1px solid #3D2B0A;
+    border-radius: 6px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .countdown-row .cd-l { font-size: 10px; color: #B8A47C; }
+  .countdown-row .cd-v { font-size: 16px; font-weight: 700; color: #FFD700; }
+  .countdown-row .cd-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    margin-top: 4px;
+  }
+  .countdown-row .cd-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #FFD700, #FF8C00);
+  }
+
+  /* Progress bar */
+  .progress-section {
+    width: 100%;
+  }
+  .progress-track {
+    width: 100%;
+    height: 18px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid #3D2B0A;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(180deg, #7EC850, #4A9E2F, #3D8B25);
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(126,200,80,0.4);
+  }
+  .progress-thumb {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(180deg, #FFD700, #C9A84C);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  }
+  .progress-label {
+    font-size: 11px;
+    color: #B8A47C;
+    margin-top: 6px;
+    text-align: center;
+  }
+
+  /* Activate button */
+  .btn-activate {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #8B6914;
+    background: linear-gradient(180deg, #2A1D08, #1A1008);
+    border-radius: 8px;
+    color: #FFD700;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    margin-top: auto;
+    letter-spacing: 1px;
+  }
+  .btn-activate:hover {
+    background: linear-gradient(180deg, #3D2B0A, #2A1D08);
+  }
+  .btn-activate .btn-sub {
+    font-size: 9px;
+    color: #B8A47C;
+    font-weight: 400;
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ===== RIGHT PANEL: Benefits ===== */
+  .panel-right {
+    flex: 1;
+    background: rgba(0,0,0,0.3);
+    border: 2px solid #5C4A1E;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Benefit grid */
+  .benefit-grid {
+    flex: 1;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .benefit-cell {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid #3D2B0A;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .benefit-cell:hover {
+    border-color: #8B6914;
+  }
+  .benefit-cell.locked {
+    opacity: 0.35;
+  }
+  .benefit-cell .bc-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  /* Icon backgrounds */
+  .bc-icon.gem { background: linear-gradient(135deg, #2D8B4E, #1B5E32); }
+  .bc-icon.chest-gold { background: linear-gradient(135deg, #8B6914, #5C4A1E); }
+  .bc-icon.key { background: linear-gradient(135deg, #5B3A8C, #3D2760); }
+  .bc-icon.exp { background: linear-gradient(135deg, #1B8B3D, #0E5C25); }
+  .bc-icon.chest-orange { background: linear-gradient(135deg, #C9661A, #8B4513); }
+  .bc-icon.chest-purple { background: linear-gradient(135deg, #6B3FA0, #4A2D70); }
+  .bc-icon.upgrade { background: linear-gradient(135deg, #2D6B8B, #1B4A5C); }
+  .bc-icon.title { background: linear-gradient(135deg, #8B1A3D, #5C0E28); }
+  .bc-icon.uprate { background: linear-gradient(135deg, #3D8B1A, #285C0E); }
+  .bc-icon.dkxx { background: linear-gradient(135deg, #3D1A8B, #280E5C); }
+  .bc-icon.bonus { background: linear-gradient(135deg, #8B8B1A, #5C5C0E); }
+
+  /* Number badge on icon */
+  .bc-icon .badge-num {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: #C9A84C;
+    color: #1a0e2e;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 1px 4px;
+    border-radius: 4px;
+    min-width: 16px;
+    text-align: center;
+  }
+
+  .benefit-cell .bc-info { flex: 1; }
+  .benefit-cell .bc-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #E8D5A3;
+  }
+  .benefit-cell .bc-desc {
+    font-size: 9px;
+    color: #8B7D5C;
+    margin-top: 1px;
+  }
+  .benefit-cell .bc-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: #FFD700;
+  }
+  .benefit-cell .lock-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+  .benefit-cell .new-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: #2ECC71;
+    color: #fff;
+    font-size: 7px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* Next level hint at bottom */
+  .next-hint {
+    padding: 8px 12px;
+    background: rgba(255,215,0,0.04);
+    border-top: 1px solid #3D2B0A;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .next-hint .nh-text {
+    font-size: 10px;
+    color: #8B7D5C;
+  }
+  .next-hint .nh-text b {
+    color: #FFD700;
+  }
+  .next-hint .nh-arrow {
+    font-size: 12px;
+    color: #FFD700;
+  }
+
+  /* Navigation arrows */
+  .nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 72px;
+    background: rgba(139,105,20,0.4);
+    border: 2px solid #8B6914;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: #FFD700;
+    cursor: pointer;
+    z-index: 5;
+    transition: background 0.2s;
+  }
+  .nav-arrow:hover {
+    background: rgba(139,105,20,0.7);
+  }
+  .nav-arrow.left {
+    left: 292px;
+    border-radius: 0 8px 8px 0;
+  }
+  .nav-arrow.right {
+    right: 12px;
+    border-radius: 8px 0 0 8px;
+  }
+
+  /* Level indicator dots */
+  .level-dots {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    padding: 6px 0;
+    background: rgba(0,0,0,0.2);
+    border-top: 1px solid #3D2B0A;
+  }
+  .level-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3D2B0A;
+    border: 1px solid #5C4A1E;
+  }
+  .level-dot.active {
+    background: #FFD700;
+    border-color: #FFD700;
+    box-shadow: 0 0 6px rgba(255,215,0,0.5);
+  }
+  .level-dot.unlocked {
+    background: #8B6914;
+    border-color: #8B6914;
+  }
+</style>
+</head>
+<body>
+
+<div class="label" >Screen 1: Chưa đăng ký VIP — Preview Lv1</div>
+
+<div class="game-frame">
+  <div class="main-layout">
+
+    <!-- LEFT: VIP Info — chưa kích hoạt -->
+    <div class="panel-left">
+      <div class="panel-header">Vip Info</div>
+      <div class="panel-body">
+
+        <div class="vip-card" style="opacity:0.6; border-style:dashed;">
+          <span class="vip-text" style="opacity:0.5;">VIP</span>
+          <span class="vip-sub">MEDIA CORPORATION</span>
+        </div>
+
+        <div class="info-box">
+          <div class="info-title">Đặc quyền VIP tăng theo cấp</div>
+          <div class="info-text">
+            Đặc quyền sẽ mở khóa tương ứng cấp VIP.<br>
+            Thời gian của một cấp VIP là 10 ngày.
+          </div>
+        </div>
+
+        <div style="width:100%; text-align:center; padding:8px 0; color:#8B7D5C; font-size:12px;">
+          Bạn chưa là VIP
+        </div>
+
+        <div class="btn-activate">
+          Kích hoạt
+          <span class="btn-sub">100,000đ — Bắt đầu Level 1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation arrows -->
+    <div class="nav-arrow left" style="opacity:0.3; pointer-events:none;">‹</div>
+    <div class="nav-arrow right">›</div>
+
+    <!-- RIGHT: Benefits Lv1 — tất cả mờ vì chưa kích hoạt -->
+    <div class="panel-right">
+      <div class="panel-header">Vip 1 Benefit</div>
+      <div class="benefit-grid">
+
+        <div class="benefit-cell" style="opacity:0.5;">
+          <div class="bc-icon gem">💎<span class="badge-num">1.5K</span></div>
+          <div class="bc-info"><div class="bc-name">G Xanh</div><div class="bc-desc">83G/ngày × 10 ngày</div></div>
+        </div>
+        <div class="benefit-cell" style="opacity:0.5;">
+          <div class="bc-icon chest-gold">📦<span class="badge-num">50</span></div>
+          <div class="bc-info"><div class="bc-name">Rương vàng</div><div class="bc-desc">5 rương/ngày</div></div>
+        </div>
+
+        <div class="benefit-cell" style="opacity:0.5;">
+          <div class="bc-icon key">🔑<span class="badge-num">10</span></div>
+          <div class="bc-info"><div class="bc-name">Chìa khóa</div><div class="bc-desc">Đục lỗ trang sức</div></div>
+        </div>
+        <div class="benefit-cell" style="opacity:0.5;">
+          <div class="bc-icon chest-orange">🟠<span class="badge-num">5</span></div>
+          <div class="bc-info"><div class="bc-name">Rương cam</div><div class="bc-desc">Rương phần thưởng</div></div>
+        </div>
+
+        <div class="benefit-cell" style="opacity:0.5;">
+          <div class="bc-icon chest-purple">💜<span class="badge-num">5</span></div>
+          <div class="bc-info"><div class="bc-name">Rương tím</div><div class="bc-desc">5 rương/kỳ VIP</div></div>
+        </div>
+        <div class="benefit-cell" style="opacity:0.5;">
+          <div class="bc-icon title">👑</div>
+          <div class="bc-info"><div class="bc-name">VIP 1 Title</div><div class="bc-desc">Khung avatar + FX tung XX</div></div>
+        </div>
+
+        <div class="benefit-cell" style="opacity:0.5;">
+          <div class="bc-icon bonus">💰</div>
+          <div class="bc-info"><div class="bc-name">Bonus +5% G</div><div class="bc-desc">Nạp GEM thêm 5%</div></div>
+        </div>
+
+        <!-- Locked Lv2+ -->
+        <div class="benefit-cell locked">
+          <div class="bc-icon exp">⚡</div>
+          <div class="bc-info"><div class="bc-name">X2 EXP</div><div class="bc-desc">Mở khóa ở Level 2</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon dkxx">🎲</div>
+          <div class="bc-info"><div class="bc-name">+3% DKXX</div><div class="bc-desc">Mở khóa ở Level 2</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon upgrade">⬆️</div>
+          <div class="bc-info"><div class="bc-name">Unlock Upgrade R</div><div class="bc-desc">Mở khóa ở Level 3</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon" style="background:linear-gradient(135deg,#555,#333);">❓</div>
+          <div class="bc-info"><div class="bc-name">???</div><div class="bc-desc">Mở khóa ở Level 4</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon" style="background:linear-gradient(135deg,#555,#333);">❓</div>
+          <div class="bc-info"><div class="bc-name">???</div><div class="bc-desc">Mở khóa ở Level 5</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+
+      </div>
+
+      <div class="level-dots">
+        <div class="level-dot"></div>
+        <div class="level-dot"></div>
+        <div class="level-dot"></div>
+        <div class="level-dot"></div>
+        <div class="level-dot"></div>
+      </div>
+      <div class="next-hint">
+        <div class="nh-text">Kích hoạt VIP → <b>Level 1</b>: 1,500G, 50 rương vàng, 5 rương cam, Khung VIP 1</div>
+        <div class="nh-arrow">›</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="label" style="margin-top:48px;">Screen 2: Đang VIP — Level 2, còn nhiều ngày</div>
+
+<div class="game-frame">
+  <div class="main-layout">
+
+    <!-- LEFT: VIP Info -->
+    <div class="panel-left">
+      <div class="panel-header">Vip Info</div>
+      <div class="panel-body">
+
+        <div class="vip-card">
+          <span class="vip-text">VIP 2</span>
+          <span class="vip-sub">MEDIA CORPORATION</span>
+        </div>
+
+        <div class="info-box">
+          <div class="info-title">Đặc quyền VIP tăng theo cấp</div>
+          <div class="info-text">
+            Đặc quyền sẽ mở khóa tương ứng cấp VIP.<br>
+            Thời gian của một cấp VIP là 10 ngày.
+          </div>
+        </div>
+
+        <div class="progress-section">
+          <div class="progress-track">
+            <div class="progress-fill" style="width:65%"></div>
+            <div class="progress-thumb" style="left:65%"></div>
+          </div>
+          <div class="progress-label">Còn lại 9 ngày 20:20:30s</div>
+        </div>
+
+        <!-- Nút claim quà — popup khi login -->
+        <div class="btn-activate" style="background:linear-gradient(180deg, #2D6B1A, #1A4A0E); border-color:#4A9E2F;">
+          Nhận quà hôm nay
+          <span class="btn-sub" style="color:#7EC850;">💎 83G + 📦 5 rương + 💜 1 tím + 🔑 1 chìa</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation arrows -->
+    <div class="nav-arrow left">‹</div>
+    <div class="nav-arrow right">›</div>
+
+    <!-- RIGHT: Benefits -->
+    <div class="panel-right">
+      <div class="panel-header">Vip 2 Benefit</div>
+      <div class="benefit-grid">
+
+        <!-- Unlocked benefits (Lv1-2) — sáng, ở trên -->
+        <div class="benefit-cell">
+          <div class="bc-icon gem">💎<span class="badge-num">1.5K</span></div>
+          <div class="bc-info">
+            <div class="bc-name">G Xanh</div>
+            <div class="bc-desc">83G/ngày × 10 ngày</div>
+          </div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon chest-gold">📦<span class="badge-num">50</span></div>
+          <div class="bc-info">
+            <div class="bc-name">Rương vàng</div>
+            <div class="bc-desc">5 rương/ngày</div>
+          </div>
+        </div>
+
+        <div class="benefit-cell">
+          <div class="bc-icon key">🔑<span class="badge-num">10</span></div>
+          <div class="bc-info">
+            <div class="bc-name">Chìa khóa</div>
+            <div class="bc-desc">Đục lỗ trang sức</div>
+          </div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon exp">⚡</div>
+          <div class="bc-info">
+            <div class="bc-name">X2 EXP</div>
+            <div class="bc-desc">Nhân đôi EXP nhân vật</div>
+          </div>
+        </div>
+
+        <div class="benefit-cell">
+          <div class="bc-icon chest-orange">🟠<span class="badge-num">5</span></div>
+          <div class="bc-info">
+            <div class="bc-name">Rương cam</div>
+            <div class="bc-desc">Rương phần thưởng</div>
+          </div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon chest-purple">💜<span class="badge-num">10</span></div>
+          <div class="bc-info">
+            <div class="bc-name">Rương tím</div>
+            <div class="bc-desc">10 rương/kỳ VIP</div>
+          </div>
+        </div>
+
+        <div class="benefit-cell">
+          <div class="bc-icon title">👑</div>
+          <div class="bc-info">
+            <div class="bc-name">VIP 2 Title</div>
+            <div class="bc-desc">Khung avatar + FX tung XX</div>
+          </div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon dkxx">🎲</div>
+          <div class="bc-info">
+            <div class="bc-name">+3% DKXX</div>
+            <div class="bc-desc">Tăng điều khiển XX</div>
+          </div>
+        </div>
+
+        <div class="benefit-cell">
+          <div class="bc-icon bonus">💰</div>
+          <div class="bc-info">
+            <div class="bc-name">Bonus +10% G</div>
+            <div class="bc-desc">Nạp GEM thêm 10%</div>
+          </div>
+        </div>
+
+        <!-- Locked benefits (Lv3+) — mờ, ở dưới -->
+        <div class="benefit-cell locked">
+          <div class="bc-icon upgrade">⬆️</div>
+          <div class="bc-info">
+            <div class="bc-name">Unlock Upgrade R</div>
+            <div class="bc-desc">Mở khóa ở Level 3</div>
+          </div>
+          <span class="lock-icon">🔒</span>
+        </div>
+
+        <div class="benefit-cell locked">
+          <div class="bc-icon uprate">📈</div>
+          <div class="bc-info">
+            <div class="bc-name">+10% Upgrade R</div>
+            <div class="bc-desc">Mở khóa ở Level 4</div>
+          </div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon" style="background:linear-gradient(135deg,#555,#333);">❓</div>
+          <div class="bc-info">
+            <div class="bc-name">???</div>
+            <div class="bc-desc">Mở khóa ở Level 5</div>
+          </div>
+          <span class="lock-icon">🔒</span>
+        </div>
+
+      </div>
+
+      <!-- Level dots -->
+      <div class="level-dots">
+        <div class="level-dot unlocked" title="Lv1"></div>
+        <div class="level-dot active" title="Lv2"></div>
+        <div class="level-dot" title="Lv3"></div>
+        <div class="level-dot" title="Lv4"></div>
+        <div class="level-dot" title="Lv5"></div>
+      </div>
+      <!-- Next level hint -->
+      <div class="next-hint">
+        <div class="nh-text">Mua tiếp → <b>Level 3</b>: x3 EXP, DKXX +5%, Unlock Upgrade R, 10 rương cam</div>
+        <div class="nh-arrow">›</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== SCREEN 2: VIP ≤3 ngày — Hiện nút kích hoạt ===== -->
+
+<div class="label" style="margin-top:48px;">Screen 3: VIP còn ≤3 ngày — Hiện nút kích hoạt</div>
+
+<div class="game-frame">
+  <div class="main-layout">
+
+    <!-- LEFT: VIP Info -->
+    <div class="panel-left" style="border-color: #8B3A1E;">
+      <div class="panel-header" style="background:linear-gradient(180deg, #5C1A0A, #3D0E05); border-color:#8B3A1E;">Vip Info</div>
+      <div class="panel-body">
+
+        <div class="vip-card" style="border-color:#8B3A1E;">
+          <span class="vip-text">VIP 2</span>
+          <span class="vip-sub">MEDIA CORPORATION</span>
+        </div>
+
+        <div class="info-box" style="border-color:#5C1A0A;">
+          <div class="info-title" style="color:#FF8844;">Đặc quyền VIP tăng theo cấp</div>
+          <div class="info-text">
+            Đặc quyền sẽ mở khóa tương ứng cấp VIP.<br>
+            Thời gian của một cấp VIP là 10 ngày.
+          </div>
+        </div>
+
+        <!-- Progress bar — urgent -->
+        <div class="progress-section">
+          <div class="progress-track" style="border-color:#8B3A1E;">
+            <div class="progress-fill" style="width:15%; background:linear-gradient(180deg, #FF6B4A, #CC3311, #AA2200);"></div>
+            <div class="progress-thumb" style="left:15%; background:linear-gradient(180deg, #FF4444, #CC0000); border-color:#fff;"></div>
+          </div>
+          <div class="progress-label" style="color:#FF8888;">⚠️ Còn lại 1 ngày 08:15:42s</div>
+        </div>
+
+        <!-- Warning -->
+        <div style="width:100%; background:rgba(255,68,68,0.1); border:1px solid rgba(255,68,68,0.3); border-radius:6px; padding:8px;">
+          <div style="font-size:10px; font-weight:700; color:#FF4444; margin-bottom:4px;">⚠️ Sắp reset về Level 0!</div>
+          <div style="font-size:9px; color:#FF8888; line-height:1.4;">Mất: x2 EXP, +3% DKXX, Khung VIP 2, Bonus +10% G, streak VIP</div>
+        </div>
+
+        <!-- Nút claim quà trước -->
+        <div class="btn-activate" style="background:linear-gradient(180deg, #2D6B1A, #1A4A0E); border-color:#4A9E2F;">
+          Nhận quà hôm nay
+          <span class="btn-sub" style="color:#7EC850;">💎 83G + 📦 5 rương + 💜 1 tím + 🔑 1 chìa</span>
+        </div>
+
+        <!-- Nút kích hoạt — disabled cho tới khi claim -->
+        <div class="btn-activate" style="background:linear-gradient(180deg, #333, #222); border-color:#555; opacity:0.5; cursor:not-allowed;">
+          Kích hoạt Level 3
+          <span class="btn-sub" style="color:#888;">Nhận quà trước để mở khóa</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation arrows -->
+    <div class="nav-arrow left">‹</div>
+    <div class="nav-arrow right">›</div>
+
+    <!-- RIGHT: Benefits (same as screen 1) -->
+    <div class="panel-right">
+      <div class="panel-header">Vip 2 Benefit</div>
+      <div class="benefit-grid">
+        <div class="benefit-cell">
+          <div class="bc-icon gem">💎<span class="badge-num">1.5K</span></div>
+          <div class="bc-info"><div class="bc-name">G Xanh</div><div class="bc-desc">83G/ngày × 10 ngày</div></div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon chest-gold">📦<span class="badge-num">50</span></div>
+          <div class="bc-info"><div class="bc-name">Rương vàng</div><div class="bc-desc">5 rương/ngày</div></div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon key">🔑<span class="badge-num">10</span></div>
+          <div class="bc-info"><div class="bc-name">Chìa khóa</div><div class="bc-desc">Đục lỗ trang sức</div></div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon exp">⚡</div>
+          <div class="bc-info"><div class="bc-name">X2 EXP</div><div class="bc-desc">Nhân đôi EXP nhân vật</div></div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon chest-orange">🟠<span class="badge-num">5</span></div>
+          <div class="bc-info"><div class="bc-name">Rương cam</div><div class="bc-desc">Rương phần thưởng</div></div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon chest-purple">💜<span class="badge-num">10</span></div>
+          <div class="bc-info"><div class="bc-name">Rương tím</div><div class="bc-desc">10 rương/kỳ VIP</div></div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon title">👑</div>
+          <div class="bc-info"><div class="bc-name">VIP 2 Title</div><div class="bc-desc">Khung avatar + FX tung XX</div></div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon dkxx">🎲</div>
+          <div class="bc-info"><div class="bc-name">+3% DKXX</div><div class="bc-desc">Tăng điều khiển XX</div></div>
+        </div>
+        <div class="benefit-cell">
+          <div class="bc-icon bonus">💰</div>
+          <div class="bc-info"><div class="bc-name">Bonus +10% G</div><div class="bc-desc">Nạp GEM thêm 10%</div></div>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon upgrade">⬆️</div>
+          <div class="bc-info"><div class="bc-name">Unlock Upgrade R</div><div class="bc-desc">Mở khóa ở Level 3</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon uprate">📈</div>
+          <div class="bc-info"><div class="bc-name">+10% Upgrade R</div><div class="bc-desc">Mở khóa ở Level 4</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon" style="background:linear-gradient(135deg,#555,#333);">❓</div>
+          <div class="bc-info"><div class="bc-name">???</div><div class="bc-desc">Mở khóa ở Level 5</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+      </div>
+
+      <div class="level-dots">
+        <div class="level-dot unlocked"></div>
+        <div class="level-dot active"></div>
+        <div class="level-dot"></div>
+        <div class="level-dot"></div>
+        <div class="level-dot"></div>
+      </div>
+      <div class="next-hint">
+        <div class="nh-text">Mua tiếp → <b>Level 3</b>: x3 EXP, DKXX +5%, Unlock Upgrade R, 10 rương cam</div>
+        <div class="nh-arrow">›</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== SCREEN 4: Hết VIP — Countdown 3 ngày trước reset ===== -->
+<div class="label" style="margin-top:48px;">Screen 4: Hết VIP — 3 ngày để kích hoạt tiếp</div>
+
+<div class="game-frame">
+  <div class="main-layout">
+
+    <!-- LEFT: VIP Info — hết hạn -->
+    <div class="panel-left" style="border-color: #8B3A1E;">
+      <div class="panel-header" style="background:linear-gradient(180deg, #5C1A0A, #3D0E05); border-color:#8B3A1E;">Vip Info</div>
+      <div class="panel-body">
+
+        <div class="vip-card" style="border-color:#8B3A1E; opacity:0.7;">
+          <span class="vip-text" style="background:linear-gradient(180deg, #FF8844, #CC4400); -webkit-background-clip:text;">VIP 2</span>
+          <span class="vip-sub">ĐÃ HẾT HẠN</span>
+        </div>
+
+        <div style="width:100%; background:rgba(255,68,68,0.12); border:1px solid rgba(255,68,68,0.3); border-radius:6px; padding:10px;">
+          <div style="font-size:12px; font-weight:700; color:#FF4444; text-align:center; margin-bottom:6px;">⚠️ VIP đã hết hạn!</div>
+          <div style="font-size:10px; color:#FF8888; text-align:center; line-height:1.5;">
+            Bạn có <b style="color:#FFD700; font-size:13px;">3 ngày</b> để kích hoạt tiếp.<br>
+            Nếu không, VIP sẽ reset về Level 0.
+          </div>
+        </div>
+
+        <!-- Countdown 3 ngày -->
+        <div class="progress-section">
+          <div class="progress-track" style="border-color:#8B3A1E;">
+            <div class="progress-fill" style="width:85%; background:linear-gradient(180deg, #FF6B4A, #CC3311, #AA2200);"></div>
+            <div class="progress-thumb" style="left:85%; background:linear-gradient(180deg, #FF4444, #CC0000); border-color:#fff;"></div>
+          </div>
+          <div class="progress-label" style="color:#FF8888; font-weight:600;">⏰ Reset sau 2 ngày 15:30:00s</div>
+        </div>
+
+        <!-- Nút kích hoạt — urgent -->
+        <div class="btn-activate" style="background:linear-gradient(180deg, #5C1A0A, #3D0E05); border-color:#FF4444; animation: pulse 1.5s infinite;">
+          Kích hoạt Level 3
+          <span class="btn-sub" style="color:#FF8888;">100,000đ — Giữ streak + lên level</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation arrows -->
+    <div class="nav-arrow left">‹</div>
+    <div class="nav-arrow right">›</div>
+
+    <!-- RIGHT: Benefits — tất cả khóa -->
+    <div class="panel-right" style="border-color:#5C1A1E;">
+      <div class="panel-header" style="background:linear-gradient(180deg, #3D1A0A, #2A0E05); border-color:#5C1A1E;">Vip 2 Benefit — <span style="color:#FF4444;">Đã hết hạn</span></div>
+      <div class="benefit-grid">
+        <div class="benefit-cell locked">
+          <div class="bc-icon gem">💎<span class="badge-num">1.5K</span></div>
+          <div class="bc-info"><div class="bc-name">G Xanh</div><div class="bc-desc">83G/ngày × 10 ngày</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon chest-gold">📦<span class="badge-num">50</span></div>
+          <div class="bc-info"><div class="bc-name">Rương vàng</div><div class="bc-desc">5 rương/ngày</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon key">🔑<span class="badge-num">10</span></div>
+          <div class="bc-info"><div class="bc-name">Chìa khóa</div><div class="bc-desc">Đục lỗ trang sức</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon exp">⚡</div>
+          <div class="bc-info"><div class="bc-name">X2 EXP</div><div class="bc-desc">Nhân đôi EXP nhân vật</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon chest-orange">🟠<span class="badge-num">10</span></div>
+          <div class="bc-info"><div class="bc-name">Rương cam</div><div class="bc-desc">Rương phần thưởng</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon chest-purple">💜<span class="badge-num">10</span></div>
+          <div class="bc-info"><div class="bc-name">Rương tím</div><div class="bc-desc">10 rương/kỳ VIP</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon title">👑</div>
+          <div class="bc-info"><div class="bc-name">VIP 2 Title</div><div class="bc-desc">Khung avatar + FX tung XX</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon dkxx">🎲</div>
+          <div class="bc-info"><div class="bc-name">+3% DKXX</div><div class="bc-desc">Tăng điều khiển XX</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon bonus">💰</div>
+          <div class="bc-info"><div class="bc-name">Bonus +10% G</div><div class="bc-desc">Nạp GEM thêm 10%</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon upgrade">⬆️</div>
+          <div class="bc-info"><div class="bc-name">Unlock Upgrade R</div><div class="bc-desc">Level 3</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon uprate">📈</div>
+          <div class="bc-info"><div class="bc-name">+10% Upgrade R</div><div class="bc-desc">Level 4</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+        <div class="benefit-cell locked">
+          <div class="bc-icon" style="background:linear-gradient(135deg,#555,#333);">❓</div>
+          <div class="bc-info"><div class="bc-name">???</div><div class="bc-desc">Level 5</div></div>
+          <span class="lock-icon">🔒</span>
+        </div>
+      </div>
+      <div class="level-dots">
+        <div class="level-dot unlocked"></div>
+        <div class="level-dot" style="background:#FF4444; border-color:#FF4444; box-shadow:0 0 6px rgba(255,68,68,0.5);"></div>
+        <div class="level-dot"></div>
+        <div class="level-dot"></div>
+        <div class="level-dot"></div>
+      </div>
+      <div class="next-hint" style="background:rgba(255,68,68,0.04);">
+        <div class="nh-text" style="color:#FF8888;">Kích hoạt ngay → <b style="color:#FFD700;">Level 3</b> + giữ streak. Không kích hoạt → <b style="color:#FF4444;">Reset Level 0</b></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- screens 5+6 removed -->
+
+<!-- ===== SCREEN 5: Sảnh VIP — Isometric Hall ===== -->
+<div class="label" style="margin-top:48px;">Screen 5: Sảnh VIP — Isometric Hall</div>
+<div style="font-size: 12px; color: #666; max-width: 900px; text-align: center; line-height: 1.6; margin-bottom: 10px;">
+  NV di chuyển trong sảnh isometric. Click vào trạm để mở UI. Click vào sàn để di chuyển NV.<br>
+  Phase 1: Cosmetic + Upgrade R. Phase 2: thêm NV khác (social lobby).
+</div>
+
+<style>
+  .iso-hall {
+    width: 900px;
+    height: 580px;
+    background: linear-gradient(180deg, #0a0618 0%, #1a0e2e 40%, #0f0a1e 100%);
+    border-radius: 8px;
+    border: 3px solid #8B6914;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(139,105,20,0.3), inset 0 0 60px rgba(0,0,0,0.5);
+  }
+  .iso-hall::before, .iso-hall::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #C9A84C 20%, #FFD700 50%, #C9A84C 80%, transparent);
+    z-index: 10;
+  }
+  .iso-hall::before { top: 0; }
+  .iso-hall::after { bottom: 0; }
+
+  /* Isometric floor */
+  .iso-floor {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 800px;
+    height: 360px;
+    transform: translateX(-50%);
+    /* CSS isometric floor via repeating gradient */
+    background:
+      repeating-linear-gradient(
+        60deg,
+        transparent,
+        transparent 38px,
+        rgba(139,105,20,0.12) 38px,
+        rgba(139,105,20,0.12) 40px
+      ),
+      repeating-linear-gradient(
+        -60deg,
+        transparent,
+        transparent 38px,
+        rgba(139,105,20,0.12) 38px,
+        rgba(139,105,20,0.12) 40px
+      ),
+      radial-gradient(ellipse at 50% 20%, rgba(139,105,20,0.08) 0%, transparent 70%);
+    clip-path: polygon(50% 5%, 98% 50%, 50% 95%, 2% 50%);
+    cursor: pointer;
+  }
+
+  /* Stations */
+  .iso-station {
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.2s;
+    z-index: 5;
+  }
+  .iso-station:hover {
+    transform: scale(1.08);
+    filter: brightness(1.2);
+  }
+  .station-body {
+    background: rgba(0,0,0,0.6);
+    border: 2px solid #5C4A1E;
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: center;
+    min-width: 110px;
+    backdrop-filter: blur(4px);
+    position: relative;
+  }
+  .station-body.active-station {
+    border-color: #FFD700;
+    box-shadow: 0 0 20px rgba(255,215,0,0.3), 0 0 40px rgba(255,215,0,0.1);
+  }
+  .station-icon {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .station-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #C9A84C;
+  }
+  .station-sub {
+    font-size: 8px;
+    color: #5C4A1E;
+    margin-top: 2px;
+  }
+  .station-glow {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 16px;
+    background: radial-gradient(ellipse, rgba(255,215,0,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  /* Character */
+  .iso-char {
+    position: absolute;
+    z-index: 6;
+    transition: left 1s ease-in-out, top 1s ease-in-out;
+    pointer-events: none;
+  }
+  .char-sprite {
+    width: 44px;
+    height: 60px;
+    background: linear-gradient(180deg, #6B3FA0, #4A2D70);
+    border: 2px solid #C9A84C;
+    border-radius: 8px 8px 4px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .char-shadow {
+    width: 40px;
+    height: 12px;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    margin: -2px auto 0;
+  }
+  .char-name-tag {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.7);
+    border: 1px solid #C9A84C;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 8px;
+    font-weight: 700;
+    color: #FFD700;
+    white-space: nowrap;
+  }
+  .char-vip-frame {
+    position: absolute;
+    inset: -4px;
+    border: 2px solid #FFD700;
+    border-radius: 10px 10px 6px 6px;
+    box-shadow: 0 0 8px rgba(255,215,0,0.4);
+    pointer-events: none;
+  }
+
+  /* Social hint area */
+  .social-hint {
+    position: absolute;
+    cursor: not-allowed;
+    z-index: 4;
+  }
+  .hint-body {
+    background: rgba(0,0,0,0.3);
+    border: 2px dashed rgba(139,105,20,0.3);
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: center;
+    min-width: 110px;
+    opacity: 0.5;
+  }
+  .hint-body .station-label { color: #5C4A1E; }
+
+  /* Top HUD */
+  .iso-hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, rgba(61,43,10,0.95), rgba(42,29,8,0.9), transparent);
+    padding: 8px 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 8;
+  }
+  .hud-left { display: flex; align-items: center; gap: 12px; }
+  .hud-title {
+    font-size: 18px;
+    font-weight: 800;
+    background: linear-gradient(180deg, #FFD700, #C9A84C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+  }
+  .hud-badge {
+    background: linear-gradient(135deg, #FFD700, #C9A84C);
+    color: #1a0e2e;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 10px;
+  }
+  .hud-close {
+    width: 32px;
+    height: 32px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid #5C4A1E;
+    border-radius: 6px;
+    color: #B8A47C;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  /* Floating panel (popup khi click station) */
+  .float-panel {
+    position: absolute;
+    z-index: 20;
+    width: 340px;
+    max-height: 380px;
+    background: rgba(15,10,30,0.95);
+    border: 2px solid #8B6914;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 20px rgba(139,105,20,0.2);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    display: none;
+  }
+  .float-panel.show { display: flex; flex-direction: column; }
+  .fp-header {
+    background: linear-gradient(180deg, #3D2B0A, #2A1D08);
+    border-bottom: 2px solid #8B6914;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fp-title { font-size: 13px; font-weight: 700; color: #FFD700; }
+  .fp-close {
+    width: 24px; height: 24px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid #5C4A1E;
+    border-radius: 4px;
+    color: #B8A47C;
+    font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .fp-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  .fp-body::-webkit-scrollbar { width: 4px; }
+  .fp-body::-webkit-scrollbar-thumb { background: #3D2B0A; border-radius: 2px; }
+
+  /* Equipped cosmetic tags in panel */
+  .cos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .cos-item {
+    background: rgba(0,0,0,0.3);
+    border: 2px solid #3D2B0A;
+    border-radius: 8px;
+    padding: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .cos-item:hover { border-color: #8B6914; }
+  .cos-item.eq { border-color: #7EC850; box-shadow: 0 0 8px rgba(126,200,80,0.2); }
+  .cos-item.lk { opacity: 0.35; cursor: not-allowed; }
+  .cos-item .ci { font-size: 22px; display: block; margin-bottom: 2px; }
+  .cos-item .cn { font-size: 9px; color: #B8A47C; font-weight: 600; }
+  .cos-item .cr { font-size: 7px; color: #5C4A1E; }
+  .cos-item .eq-tag {
+    position: absolute; top: -3px; right: -3px;
+    background: #7EC850; color: #111; font-size: 7px; font-weight: 700;
+    padding: 0px 4px; border-radius: 3px;
+  }
+
+  .sec-title-sm {
+    font-size: 10px; font-weight: 700; color: #C9A84C;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin: 8px 0 6px; display: flex; align-items: center; gap: 4px;
+  }
+  .sec-title-sm .ln { flex: 1; height: 1px; background: #3D2B0A; }
+
+  /* Upgrade panel cards */
+  .up-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .up-card {
+    background: rgba(0,0,0,0.3);
+    border: 2px solid #3D2B0A;
+    border-radius: 6px;
+    padding: 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .up-card:hover { border-color: #8B6914; }
+  .up-card.can { border-color: #7EC850; }
+  .up-card.done { border-color: #C9A84C; }
+  .up-card .uc-icon {
+    width: 100%; aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #2a1a3e, #1a1a2e);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 3px; position: relative;
+  }
+  .up-card .uc-rank {
+    position: absolute; top: 2px; left: 2px;
+    font-size: 7px; font-weight: 800; padding: 0px 3px; border-radius: 2px;
+  }
+  .up-card .uc-name { font-size: 8px; color: #B8A47C; }
+  .up-card .uc-status { font-size: 7px; margin-top: 1px; }
+
+  /* Interaction hint */
+  .interact-hint {
+    position: absolute;
+    font-size: 9px;
+    color: #C9A84C;
+    background: rgba(0,0,0,0.6);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(139,105,20,0.3);
+    pointer-events: none;
+    z-index: 7;
+    animation: hintPulse 2s infinite;
+  }
+  @keyframes hintPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  /* Particles / atmosphere */
+  .particle {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: rgba(255,215,0,0.3);
+    border-radius: 50%;
+    animation: float 4s infinite ease-in-out;
+    pointer-events: none;
+    z-index: 3;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+    50% { transform: translateY(-20px) scale(1.5); opacity: 0.8; }
+  }
+</style>
+
+<div class="iso-hall" id="isoHall">
+  <!-- Atmosphere particles -->
+  <div class="particle" style="left:15%; top:60%; animation-delay:0s;"></div>
+  <div class="particle" style="left:35%; top:45%; animation-delay:0.8s;"></div>
+  <div class="particle" style="left:55%; top:55%; animation-delay:1.6s;"></div>
+  <div class="particle" style="left:75%; top:40%; animation-delay:2.4s;"></div>
+  <div class="particle" style="left:25%; top:70%; animation-delay:3.2s;"></div>
+  <div class="particle" style="left:65%; top:65%; animation-delay:0.4s;"></div>
+  <div class="particle" style="left:45%; top:50%; animation-delay:1.2s;"></div>
+  <div class="particle" style="left:85%; top:55%; animation-delay:2s;"></div>
+
+  <!-- HUD -->
+  <div class="iso-hud">
+    <div class="hud-left">
+      <span class="hud-title">SẢNH VIP</span>
+      <span class="hud-badge">Lv3</span>
+      <span style="font-size:10px; color:#B8A47C;">Hết hạn: còn 9 ngày</span>
+    </div>
+    <div class="hud-close">✕</div>
+  </div>
+
+  <!-- Isometric floor -->
+  <div class="iso-floor" id="isoFloor"></div>
+
+  <!-- Station: Cosmetic (left) -->
+  <div class="iso-station" style="left:90px; top:200px;" onclick="openPanel('cosmetic', this)">
+    <div class="station-body" id="st-cosmetic">
+      <span class="station-icon">✨</span>
+      <div class="station-label">COSMETIC</div>
+      <div class="station-sub">Khung, FX, Deco</div>
+      <div class="station-glow"></div>
+    </div>
+  </div>
+
+  <!-- Station: Upgrade R (right) -->
+  <div class="iso-station" style="right:90px; top:200px;" onclick="openPanel('upgrade', this)">
+    <div class="station-body" id="st-upgrade">
+      <span class="station-icon">⚔️</span>
+      <div class="station-label">NÂNG CẤP R</div>
+      <div class="station-sub">Upgrade thẻ A → R</div>
+      <div class="station-glow"></div>
+    </div>
+  </div>
+
+  <!-- Station: VIP Info (top center) -->
+  <div class="iso-station" style="left:50%; top:100px; transform:translateX(-50%);" onclick="openPanel('vipinfo', this)">
+    <div class="station-body" id="st-vipinfo">
+      <span class="station-icon">👑</span>
+      <div class="station-label">VIP INFO</div>
+      <div class="station-sub">Benefit & Gia hạn</div>
+      <div class="station-glow"></div>
+    </div>
+  </div>
+
+  <!-- Social hint stations (locked, future) -->
+  <div class="social-hint" style="left:50%; bottom:60px; transform:translateX(-50%);">
+    <div class="hint-body">
+      <span class="station-icon" style="font-size:24px; opacity:0.4;">🏟️</span>
+      <div class="station-label">SẮP RA MẮT</div>
+      <div class="station-sub" style="color:#3D2B0A;">Sảnh giao lưu VIP</div>
+    </div>
+  </div>
+
+  <div class="social-hint" style="left:310px; bottom:100px;">
+    <div class="hint-body" style="min-width:80px; padding:6px 10px;">
+      <span class="station-icon" style="font-size:20px; opacity:0.4;">🏆</span>
+      <div class="station-label" style="font-size:9px;">BXH VIP</div>
+      <div class="station-sub" style="color:#3D2B0A;">Coming soon</div>
+    </div>
+  </div>
+
+  <div class="social-hint" style="right:310px; bottom:100px;">
+    <div class="hint-body" style="min-width:80px; padding:6px 10px;">
+      <span class="station-icon" style="font-size:20px; opacity:0.4;">⚡</span>
+      <div class="station-label" style="font-size:9px;">THÁCH ĐẤU</div>
+      <div class="station-sub" style="color:#3D2B0A;">Coming soon</div>
+    </div>
+  </div>
+
+  <!-- Character (movable) -->
+  <div class="iso-char" id="isoChar" style="left:410px; top:320px;">
+    <div class="char-sprite">
+      <div class="char-vip-frame"></div>
+      <div class="char-name-tag">Phù Thủy Lửa ★★★</div>
+      🧙
+    </div>
+    <div class="char-shadow"></div>
+  </div>
+
+  <!-- Interaction hint -->
+  <div class="interact-hint" style="bottom:16px; left:50%; transform:translateX(-50%);">
+    Click vào trạm hoặc sàn để di chuyển
+  </div>
+
+  <!-- ===== FLOATING PANELS ===== -->
+
+  <!-- Panel: Cosmetic -->
+  <div class="float-panel" id="panel-cosmetic" style="left:20px; top:60px;">
+    <div class="fp-header">
+      <span class="fp-title">✨ COSMETIC</span>
+      <div class="fp-close" onclick="closePanel('cosmetic')">✕</div>
+    </div>
+    <div class="fp-body">
+      <div class="sec-title-sm">Khung Avatar <span class="ln"></span></div>
+      <div class="cos-grid">
+        <div class="cos-item eq"><span class="eq-tag">DÙNG</span><span class="ci">🖼️</span><span class="cn">Vip3</span><span class="cr">Lv3+</span></div>
+        <div class="cos-item"><span class="ci">🖼️</span><span class="cn">Vip2</span><span class="cr">Lv2+</span></div>
+        <div class="cos-item"><span class="ci">🖼️</span><span class="cn">Vip1</span><span class="cr">Lv1+</span></div>
+        <div class="cos-item lk"><span class="ci">🔒</span><span class="cn">Vip4</span><span class="cr">Cần Lv4</span></div>
+      </div>
+
+      <div class="sec-title-sm">FX Tung XX <span class="ln"></span></div>
+      <div class="cos-grid">
+        <div class="cos-item eq"><span class="eq-tag">DÙNG</span><span class="ci">🎇</span><span class="cn">FX Vàng</span><span class="cr">Lv3+</span></div>
+        <div class="cos-item"><span class="ci">🎆</span><span class="cn">FX Bạc</span><span class="cr">Lv2+</span></div>
+        <div class="cos-item"><span class="ci">✨</span><span class="cn">Cơ bản</span><span class="cr">Lv1+</span></div>
+        <div class="cos-item lk"><span class="ci">🔒</span><span class="cn">Kim Cương</span><span class="cr">Cần Lv4</span></div>
+      </div>
+
+      <div class="sec-title-sm">Deco & BG <span class="ln"></span></div>
+      <div class="cos-grid">
+        <div class="cos-item eq"><span class="eq-tag">DÙNG</span><span class="ci">🏰</span><span class="cn">Sảnh Vàng</span><span class="cr">Lv3+</span></div>
+        <div class="cos-item"><span class="ci">🌌</span><span class="cn">Đêm Sao</span><span class="cr">Lv2+</span></div>
+        <div class="cos-item lk"><span class="ci">🔒</span><span class="cn">Rồng</span><span class="cr">Cần Lv5</span></div>
+        <div class="cos-item lk"><span class="ci">🔒</span><span class="cn">Frame Lobby</span><span class="cr">Cần Lv5</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel: Upgrade R -->
+  <div class="float-panel" id="panel-upgrade" style="right:20px; top:60px;">
+    <div class="fp-header">
+      <span class="fp-title">⚔️ NÂNG CẤP R</span>
+      <div class="fp-close" onclick="closePanel('upgrade')">✕</div>
+    </div>
+    <div class="fp-body">
+      <!-- Rate info -->
+      <div style="background:rgba(255,215,0,0.06); border:1px solid #3D2B0A; border-radius:6px; padding:8px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        <div style="width:40px; height:40px; border-radius:50%; border:2px solid #C9A84C; display:flex; flex-direction:column; align-items:center; justify-content:center; flex-shrink:0;">
+          <div style="font-size:14px; font-weight:800; color:#FFD700;">+5%</div>
+          <div style="font-size:6px; color:#B8A47C;">RATE</div>
+        </div>
+        <div style="font-size:9px; color:#B8A47C; line-height:1.5;">
+          VIP Lv3: <span style="color:#FFD700; font-weight:700;">+5%</span><br>
+          CLB B+: <span style="color:#FFD700; font-weight:700;">+3%</span><br>
+          <span style="color:#5C4A1E; font-size:8px;">Mất bonus khi VIP hết hạn</span>
+        </div>
+      </div>
+
+      <div class="sec-title-sm">Chọn thẻ nâng cấp <span class="ln"></span></div>
+      <div class="up-grid">
+        <div class="up-card can">
+          <div class="uc-icon">🧙<span class="uc-rank" style="background:#C9A84C; color:#111;">A</span></div>
+          <div class="uc-name">Phù Thủy</div>
+          <div class="uc-status" style="color:#7EC850;">▲ Nâng R</div>
+        </div>
+        <div class="up-card can">
+          <div class="uc-icon">⚔️<span class="uc-rank" style="background:#C9A84C; color:#111;">A</span></div>
+          <div class="uc-name">Kiếm Sĩ</div>
+          <div class="uc-status" style="color:#7EC850;">▲ Nâng R</div>
+        </div>
+        <div class="up-card done">
+          <div class="uc-icon">🛡️<span class="uc-rank" style="background:linear-gradient(135deg,#FF6B6B,#C0392B); color:#fff;">R</span></div>
+          <div class="uc-name">Giáp Sĩ</div>
+          <div class="uc-status" style="color:#C9A84C;">★ Đã R</div>
+        </div>
+        <div class="up-card" style="opacity:0.4;">
+          <div class="uc-icon">🧝<span class="uc-rank" style="background:#C9A84C; color:#111;">B</span></div>
+          <div class="uc-name">Tiên Nữ</div>
+          <div class="uc-status" style="color:#5C4A1E;">Cần A+</div>
+        </div>
+      </div>
+
+      <div style="margin-top:8px; display:flex; align-items:center; gap:6px;">
+        <div style="flex:1; font-size:9px; color:#B8A47C;">Chọn: <b style="color:#FFD700;">Phù Thủy (A) → R</b></div>
+        <button style="background:linear-gradient(180deg, #7EC850, #4A9E2F); border:2px solid #A0E070; color:#fff; font-weight:700; font-size:11px; padding:6px 16px; border-radius:6px; cursor:pointer;">⬆ NÂNG CẤP</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel: VIP Info -->
+  <div class="float-panel" id="panel-vipinfo" style="left:50%; top:60px; transform:translateX(-50%); width:300px;">
+    <div class="fp-header">
+      <span class="fp-title">👑 VIP Lv3</span>
+      <div class="fp-close" onclick="closePanel('vipinfo')">✕</div>
+    </div>
+    <div class="fp-body">
+      <div style="text-align:center; margin-bottom:8px;">
+        <div style="font-size:24px; font-weight:800; background:linear-gradient(180deg, #FFD700, #C9A84C); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">VIP Lv3</div>
+        <div style="font-size:10px; color:#B8A47C;">Hết hạn: 15/04/2026 — còn 9 ngày</div>
+        <div style="font-size:8px; color:#5C4A1E; margin-top:2px;">Grace 3 ngày. Không gia hạn = Reset Lv0</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <div style="background:rgba(0,0,0,0.3); border:1px solid #3D2B0A; border-radius:4px; padding:5px 8px; display:flex; align-items:center; gap:6px; font-size:10px; color:#B8A47C;">💎 <span style="color:#C9A84C; font-weight:600;">GEM</span><span style="margin-left:auto; color:#FFD700; font-weight:700;">1,500G</span></div>
+        <div style="background:rgba(0,0,0,0.3); border:1px solid #3D2B0A; border-radius:4px; padding:5px 8px; display:flex; align-items:center; gap:6px; font-size:10px; color:#B8A47C;">📦 <span style="color:#C9A84C; font-weight:600;">R.Vàng</span><span style="margin-left:auto; color:#FFD700; font-weight:700;">50</span></div>
+        <div style="background:rgba(0,0,0,0.3); border:1px solid #3D2B0A; border-radius:4px; padding:5px 8px; display:flex; align-items:center; gap:6px; font-size:10px; color:#B8A47C;">⚡ <span style="color:#C9A84C; font-weight:600;">EXP</span><span style="margin-left:auto; color:#FFD700; font-weight:700;">x3</span></div>
+        <div style="background:rgba(0,0,0,0.3); border:1px solid #3D2B0A; border-radius:4px; padding:5px 8px; display:flex; align-items:center; gap:6px; font-size:10px; color:#B8A47C;">🟣 <span style="color:#C9A84C; font-weight:600;">R.Tím</span><span style="margin-left:auto; color:#FFD700; font-weight:700;">15</span></div>
+        <div style="background:rgba(0,0,0,0.3); border:1px solid #3D2B0A; border-radius:4px; padding:5px 8px; display:flex; align-items:center; gap:6px; font-size:10px; color:#B8A47C;">🟠 <span style="color:#C9A84C; font-weight:600;">R.Cam</span><span style="margin-left:auto; color:#FFD700; font-weight:700;">15</span></div>
+        <div style="background:rgba(0,0,0,0.3); border:1px solid #3D2B0A; border-radius:4px; padding:5px 8px; display:flex; align-items:center; gap:6px; font-size:10px; color:#B8A47C;">🎲 <span style="color:#C9A84C; font-weight:600;">DKXX</span><span style="margin-left:auto; color:#FFD700; font-weight:700;">+5%</span></div>
+        <div style="background:rgba(0,0,0,0.3); border:1px solid #3D2B0A; border-radius:4px; padding:5px 8px; display:flex; align-items:center; gap:6px; font-size:10px; color:#B8A47C;">⬆️ <span style="color:#C9A84C; font-weight:600;">Upgrade R</span><span style="margin-left:auto; color:#FFD700; font-weight:700;">+5%</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Character movement
+const isoFloor = document.getElementById('isoFloor');
+const isoChar = document.getElementById('isoChar');
+const isoHall = document.getElementById('isoHall');
+
+isoFloor.addEventListener('click', function(e) {
+  const rect = isoHall.getBoundingClientRect();
+  const x = e.clientX - rect.left - 22;
+  const y = e.clientY - rect.top - 30;
+  isoChar.style.left = x + 'px';
+  isoChar.style.top = y + 'px';
+});
+
+// Panel open/close
+let activePanel = null;
+
+function openPanel(name, stationEl) {
+  // Close current
+  if (activePanel) {
+    document.getElementById('panel-' + activePanel).classList.remove('show');
+    const prevSt = document.getElementById('st-' + activePanel);
+    if (prevSt) prevSt.classList.remove('active-station');
+  }
+
+  // Open new (or toggle off)
+  if (activePanel === name) {
+    activePanel = null;
+    return;
+  }
+
+  activePanel = name;
+  document.getElementById('panel-' + name).classList.add('show');
+  const st = document.getElementById('st-' + name);
+  if (st) st.classList.add('active-station');
+
+  // Move character toward station
+  const stRect = stationEl.getBoundingClientRect();
+  const hallRect = isoHall.getBoundingClientRect();
+  const targetX = stRect.left - hallRect.left + stRect.width/2 - 22;
+  const targetY = stRect.top - hallRect.top + stRect.height + 20;
+  isoChar.style.left = targetX + 'px';
+  isoChar.style.top = Math.min(targetY, 420) + 'px';
+}
+
+function closePanel(name) {
+  document.getElementById('panel-' + name).classList.remove('show');
+  const st = document.getElementById('st-' + name);
+  if (st) st.classList.remove('active-station');
+  activePanel = null;
+}
+</script>
+
+<style>
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,68,68,0.4); }
+    50% { box-shadow: 0 0 16px 4px rgba(255,68,68,0.6); }
+  }
+</style>
+
+<!-- ============================================================ -->
+<!-- ART DIRECTION: VIP CARD 5 LEVELS + AVATAR FRAME (BÀN CHƠI)  -->
+<!-- 3 hướng art để so sánh                                        -->
+<!-- ============================================================ -->
+<style>
+  /* ===== SHARED STYLES FOR ART COMPARISON ===== */
+  .art-section {
+    width: 960px;
+    margin: 60px auto 0;
+    padding: 40px;
+    background: #0a0a0a;
+    border: 2px solid #333;
+    border-radius: 12px;
+  }
+  .art-section h2 {
+    font-size: 22px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .art-section .art-desc {
+    font-size: 13px;
+    color: #888;
+    text-align: center;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+  .art-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .art-label {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    margin: 24px 0 12px;
+  }
+  .art-sublabel {
+    font-size: 10px;
+    color: #555;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* ===== VIP CARD BASE ===== */
+  .vc {
+    width: 150px;
+    height: 95px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
+  }
+  .vc:hover { transform: scale(1.05); }
+  .vc .vc-badge {
+    position: absolute;
+    top: 6px;
+    font-size: 6px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .vc .vc-level {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .vc .vc-name {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    opacity: 0.8;
+  }
+  .vc .vc-ornament {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+
+  /* ===== AVATAR FRAME BASE ===== */
+  .af {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+  .af:hover { transform: scale(1.1); }
+  .af .af-inner {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #2a2a3e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    z-index: 1;
+  }
+  .af .af-label {
+    position: absolute;
+    bottom: -18px;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  /* Board context preview */
+  .board-preview {
+    background: linear-gradient(135deg, #1a2e1a 0%, #0f1f0f 100%);
+    border: 2px solid #2a4a2a;
+    border-radius: 12px;
+    padding: 24px 20px 40px;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    position: relative;
+  }
+  .board-preview::before {
+    content: 'BÀN CHƠI — BOARD GAME VIEW';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    color: #4a6a4a;
+    letter-spacing: 2px;
+  }
+
+  /* ===== DIRECTION A: KIM LOẠI QUÝ ===== */
+  /* Lv1 Silver */
+  .vc-a1 {
+    background: linear-gradient(135deg, #7B8794, #A8B5C2, #7B8794);
+    border: 2px solid #C0C0C0;
+  }
+  .vc-a1 .vc-badge, .vc-a1 .vc-name { color: #e0e0e0; }
+  .vc-a1 .vc-level { color: #fff; text-shadow: 0 1px 6px rgba(192,192,192,0.6); }
+  .vc-a1 .vc-ornament { background: linear-gradient(90deg, transparent, #C0C0C0, transparent); }
+
+  /* Lv2 Gold */
+  .vc-a2 {
+    background: linear-gradient(135deg, #8B6914, #C9A84C, #FFD700, #C9A84C, #8B6914);
+    border: 2px solid #FFD700;
+  }
+  .vc-a2 .vc-badge, .vc-a2 .vc-name { color: #4a3500; }
+  .vc-a2 .vc-level { color: #4a3500; text-shadow: 0 1px 4px rgba(255,215,0,0.4); }
+  .vc-a2 .vc-ornament { background: linear-gradient(90deg, transparent, #FFD700, transparent); }
+
+  /* Lv3 Rose Gold */
+  .vc-a3 {
+    background: linear-gradient(135deg, #8B5E5E, #D4A07A, #F0C8A0, #D4A07A, #8B5E5E);
+    border: 2px solid #E8B896;
+  }
+  .vc-a3 .vc-badge, .vc-a3 .vc-name { color: #5a3030; }
+  .vc-a3 .vc-level { color: #5a2020; text-shadow: 0 1px 6px rgba(228,184,150,0.5); }
+  .vc-a3 .vc-ornament { background: linear-gradient(90deg, transparent, #E8B896, transparent); }
+
+  /* Lv4 Platinum */
+  .vc-a4 {
+    background: linear-gradient(135deg, #6B7B8D, #A0B5C8, #D0E0F0, #A0B5C8, #6B7B8D);
+    border: 2px solid #D0E0F0;
+    box-shadow: 0 4px 20px rgba(208,224,240,0.3);
+  }
+  .vc-a4 .vc-badge, .vc-a4 .vc-name { color: #3a4a5a; }
+  .vc-a4 .vc-level { color: #2a3a4a; text-shadow: 0 1px 8px rgba(208,224,240,0.6); }
+  .vc-a4 .vc-ornament { background: linear-gradient(90deg, transparent, #D0E0F0, transparent); }
+
+  /* Lv5 Diamond */
+  .vc-a5 {
+    background: linear-gradient(135deg, #4a8ab5, #7EC8E3, #B0E0FF, #E8F4FF, #B0E0FF, #7EC8E3, #4a8ab5);
+    border: 2px solid #B0E0FF;
+    box-shadow: 0 4px 24px rgba(176,224,255,0.4), inset 0 0 20px rgba(255,255,255,0.1);
+  }
+  .vc-a5 .vc-badge, .vc-a5 .vc-name { color: #1a4a6a; }
+  .vc-a5 .vc-level { color: #0a3050; text-shadow: 0 0 12px rgba(176,224,255,0.8); }
+  .vc-a5 .vc-ornament { background: linear-gradient(90deg, transparent, #fff, #B0E0FF, #fff, transparent); }
+
+  /* Avatar frames Direction A */
+  .af-a1 { background: conic-gradient(#7B8794, #C0C0C0, #A8B5C2, #7B8794); box-shadow: 0 0 8px rgba(192,192,192,0.4); }
+  .af-a2 { background: conic-gradient(#8B6914, #FFD700, #C9A84C, #8B6914); box-shadow: 0 0 12px rgba(255,215,0,0.4); }
+  .af-a3 { background: conic-gradient(#8B5E5E, #E8B896, #F0C8A0, #8B5E5E); box-shadow: 0 0 12px rgba(228,184,150,0.4); }
+  .af-a4 { background: conic-gradient(#6B7B8D, #D0E0F0, #A0B5C8, #6B7B8D); box-shadow: 0 0 16px rgba(208,224,240,0.5); }
+  .af-a5 {
+    background: conic-gradient(#4a8ab5, #B0E0FF, #E8F4FF, #7EC8E3, #B0E0FF, #4a8ab5);
+    box-shadow: 0 0 20px rgba(176,224,255,0.6);
+    animation: af-diamond-spin 4s linear infinite;
+  }
+  @keyframes af-diamond-spin {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+
+  /* ===== DIRECTION B: FANTASY ELEMENTS ===== */
+  /* Lv1 Wood */
+  .vc-b1 {
+    background: linear-gradient(135deg, #3E2723, #5D4037, #6D4C41, #5D4037, #3E2723);
+    border: 2px solid #795548;
+  }
+  .vc-b1 .vc-badge, .vc-b1 .vc-name { color: #A1887F; }
+  .vc-b1 .vc-level { color: #D7CCC8; text-shadow: 0 1px 4px rgba(121,85,72,0.6); }
+  .vc-b1 .vc-ornament { background: linear-gradient(90deg, transparent, #795548, transparent); }
+  .vc-b1::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px dashed rgba(161,136,127,0.3);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  /* Lv2 Stone */
+  .vc-b2 {
+    background: linear-gradient(135deg, #37474F, #546E7A, #78909C, #546E7A, #37474F);
+    border: 2px solid #78909C;
+  }
+  .vc-b2 .vc-badge, .vc-b2 .vc-name { color: #B0BEC5; }
+  .vc-b2 .vc-level { color: #ECEFF1; text-shadow: 0 1px 6px rgba(120,144,156,0.5); }
+  .vc-b2 .vc-ornament { background: linear-gradient(90deg, transparent, #90A4AE, transparent); }
+
+  /* Lv3 Fire */
+  .vc-b3 {
+    background: linear-gradient(135deg, #4A0000, #8B0000, #BF360C, #FF6D00, #BF360C, #8B0000);
+    border: 2px solid #FF6D00;
+    box-shadow: 0 4px 20px rgba(255,109,0,0.3);
+  }
+  .vc-b3 .vc-badge, .vc-b3 .vc-name { color: #FFAB91; }
+  .vc-b3 .vc-level { color: #FFF; text-shadow: 0 0 12px rgba(255,109,0,0.8); }
+  .vc-b3 .vc-ornament { background: linear-gradient(90deg, transparent, #FF6D00, #FFD600, #FF6D00, transparent); }
+
+  /* Lv4 Ice */
+  .vc-b4 {
+    background: linear-gradient(135deg, #0D47A1, #1565C0, #42A5F5, #90CAF9, #42A5F5, #1565C0);
+    border: 2px solid #90CAF9;
+    box-shadow: 0 4px 20px rgba(144,202,249,0.3);
+  }
+  .vc-b4 .vc-badge, .vc-b4 .vc-name { color: #BBDEFB; }
+  .vc-b4 .vc-level { color: #E3F2FD; text-shadow: 0 0 10px rgba(144,202,249,0.8); }
+  .vc-b4 .vc-ornament { background: linear-gradient(90deg, transparent, #90CAF9, #E3F2FD, #90CAF9, transparent); }
+
+  /* Lv5 Light / Celestial */
+  .vc-b5 {
+    background: linear-gradient(135deg, #4A148C, #7B1FA2, #CE93D8, #F3E5F5, #CE93D8, #7B1FA2);
+    border: 2px solid #CE93D8;
+    box-shadow: 0 4px 28px rgba(206,147,216,0.4), inset 0 0 20px rgba(255,255,255,0.08);
+  }
+  .vc-b5 .vc-badge, .vc-b5 .vc-name { color: #E1BEE7; }
+  .vc-b5 .vc-level { color: #FFF; text-shadow: 0 0 16px rgba(206,147,216,0.9); }
+  .vc-b5 .vc-ornament { background: linear-gradient(90deg, transparent, #CE93D8, #FFF, #CE93D8, transparent); }
+
+  /* Avatar frames Direction B */
+  .af-b1 { background: conic-gradient(#3E2723, #795548, #5D4037, #3E2723); }
+  .af-b2 { background: conic-gradient(#37474F, #78909C, #546E7A, #37474F); box-shadow: 0 0 8px rgba(120,144,156,0.3); }
+  .af-b3 { background: conic-gradient(#8B0000, #FF6D00, #BF360C, #8B0000); box-shadow: 0 0 14px rgba(255,109,0,0.5); animation: af-fire-pulse 1.5s ease-in-out infinite; }
+  @keyframes af-fire-pulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(255,109,0,0.4); }
+    50% { box-shadow: 0 0 22px rgba(255,109,0,0.7); }
+  }
+  .af-b4 { background: conic-gradient(#0D47A1, #90CAF9, #42A5F5, #0D47A1); box-shadow: 0 0 14px rgba(144,202,249,0.4); }
+  .af-b5 {
+    background: conic-gradient(#4A148C, #CE93D8, #F3E5F5, #CE93D8, #4A148C);
+    box-shadow: 0 0 20px rgba(206,147,216,0.5);
+    animation: af-light-glow 2s ease-in-out infinite;
+  }
+  @keyframes af-light-glow {
+    0%, 100% { box-shadow: 0 0 14px rgba(206,147,216,0.4); }
+    50% { box-shadow: 0 0 28px rgba(206,147,216,0.7); }
+  }
+
+  /* ===== DIRECTION C: GRADIENT SANG TRỌNG ===== */
+  /* Lv1 Deep Blue */
+  .vc-c1 {
+    background: linear-gradient(135deg, #0a1628, #152238, #1a3050, #152238, #0a1628);
+    border: 2px solid #2a5080;
+  }
+  .vc-c1 .vc-badge, .vc-c1 .vc-name { color: #5a8ab0; }
+  .vc-c1 .vc-level { color: #8ab5d8; text-shadow: 0 1px 6px rgba(42,80,128,0.6); }
+  .vc-c1 .vc-ornament { background: linear-gradient(90deg, transparent, #2a5080, transparent); }
+
+  /* Lv2 Royal Purple */
+  .vc-c2 {
+    background: linear-gradient(135deg, #1a0a2e, #2e1450, #4a1a70, #2e1450, #1a0a2e);
+    border: 2px solid #7B2FBE;
+  }
+  .vc-c2 .vc-badge, .vc-c2 .vc-name { color: #B388FF; }
+  .vc-c2 .vc-level { color: #D1C4E9; text-shadow: 0 1px 8px rgba(123,47,190,0.5); }
+  .vc-c2 .vc-ornament { background: linear-gradient(90deg, transparent, #7B2FBE, transparent); }
+
+  /* Lv3 Crimson */
+  .vc-c3 {
+    background: linear-gradient(135deg, #1a0808, #3a0a0a, #5a1010, #3a0a0a, #1a0808);
+    border: 2px solid #C62828;
+    box-shadow: 0 4px 20px rgba(198,40,40,0.2);
+  }
+  .vc-c3 .vc-badge, .vc-c3 .vc-name { color: #EF9A9A; }
+  .vc-c3 .vc-level { color: #FFCDD2; text-shadow: 0 0 10px rgba(198,40,40,0.6); }
+  .vc-c3 .vc-ornament { background: linear-gradient(90deg, transparent, #C62828, #EF5350, #C62828, transparent); }
+
+  /* Lv4 Imperial Gold */
+  .vc-c4 {
+    background: linear-gradient(135deg, #1a1400, #2e2200, #4a3800, #2e2200, #1a1400);
+    border: 2px solid #FFD700;
+    box-shadow: 0 4px 20px rgba(255,215,0,0.2);
+  }
+  .vc-c4 .vc-badge, .vc-c4 .vc-name { color: #C9A84C; }
+  .vc-c4 .vc-level {
+    background: linear-gradient(180deg, #FFD700, #FFA000, #FFD700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .vc-c4 .vc-ornament { background: linear-gradient(90deg, transparent, #FFD700, #FFF, #FFD700, transparent); }
+  .vc-c4::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  /* Lv5 Holographic */
+  .vc-c5 {
+    background: linear-gradient(135deg, #1a0a2e, #0a2e1a, #2e1a0a, #0a1a2e, #1a0a2e);
+    border: 2px solid rgba(255,255,255,0.4);
+    box-shadow: 0 4px 28px rgba(255,255,255,0.15), inset 0 0 20px rgba(255,255,255,0.05);
+    animation: vc-holo-shift 3s ease-in-out infinite;
+  }
+  @keyframes vc-holo-shift {
+    0% { border-color: #FF6EC7; box-shadow: 0 0 20px rgba(255,110,199,0.3); }
+    33% { border-color: #7DF9FF; box-shadow: 0 0 20px rgba(125,249,255,0.3); }
+    66% { border-color: #FFD700; box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+    100% { border-color: #FF6EC7; box-shadow: 0 0 20px rgba(255,110,199,0.3); }
+  }
+  .vc-c5 .vc-badge, .vc-c5 .vc-name { color: rgba(255,255,255,0.6); }
+  .vc-c5 .vc-level {
+    background: linear-gradient(90deg, #FF6EC7, #7DF9FF, #FFD700, #FF6EC7);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: vc-holo-text 3s linear infinite;
+  }
+  @keyframes vc-holo-text {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+  .vc-c5 .vc-ornament {
+    background: linear-gradient(90deg, #FF6EC7, #7DF9FF, #FFD700, #FF6EC7);
+    background-size: 300% 100%;
+    animation: vc-holo-text 3s linear infinite;
+  }
+  .vc-c5::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  /* Avatar frames Direction C */
+  .af-c1 { background: conic-gradient(#0a1628, #2a5080, #1a3050, #0a1628); box-shadow: 0 0 8px rgba(42,80,128,0.4); }
+  .af-c2 { background: conic-gradient(#1a0a2e, #7B2FBE, #4a1a70, #1a0a2e); box-shadow: 0 0 10px rgba(123,47,190,0.4); }
+  .af-c3 { background: conic-gradient(#1a0808, #C62828, #5a1010, #1a0808); box-shadow: 0 0 12px rgba(198,40,40,0.4); }
+  .af-c4 { background: conic-gradient(#1a1400, #FFD700, #4a3800, #1a1400); box-shadow: 0 0 14px rgba(255,215,0,0.4); }
+  .af-c5 {
+    background: conic-gradient(#FF6EC7, #7DF9FF, #FFD700, #7CFC00, #FF6EC7);
+    box-shadow: 0 0 20px rgba(255,110,199,0.4);
+    animation: af-holo-spin 4s linear infinite;
+  }
+  @keyframes af-holo-spin {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+
+  /* Divider */
+  .art-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #333, transparent);
+    margin: 40px 0;
+  }
+</style>
+
+<!-- ===== DIRECTION A: KIM LOẠI QUÝ ===== -->
+<div class="art-section">
+  <h2 style="color: #C9A84C;">A. Kim Loai Quy (Precious Metals)</h2>
+  <p class="art-desc">
+    Lv1 Bac &rarr; Lv2 Vang &rarr; Lv3 Rose Gold &rarr; Lv4 Bach Kim &rarr; Lv5 Kim Cuong<br>
+    Chat lieu metallic, sang trong kieu credit card VIP. Dễ hiểu, universal luxury language.
+  </p>
+
+  <div class="art-label">THE VIP — 5 LEVELS</div>
+  <div class="art-row">
+    <div class="vc vc-a1">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv1</span>
+      <span class="vc-name">Silver</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-a2">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv2</span>
+      <span class="vc-name">Gold</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-a3">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv3</span>
+      <span class="vc-name">Rose Gold</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-a4">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv4</span>
+      <span class="vc-name">Platinum</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-a5">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv5</span>
+      <span class="vc-name">Diamond</span>
+      <span class="vc-ornament"></span>
+    </div>
+  </div>
+
+  <div class="art-label">KHUNG AVATAR — BAN CHOI</div>
+  <div class="art-sublabel">Khung avatar hien thi quanh avatar player tren ban co</div>
+  <div class="board-preview">
+    <div class="af af-a1">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#C0C0C0;">Lv1</span>
+    </div>
+    <div class="af af-a2">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#FFD700;">Lv2</span>
+    </div>
+    <div class="af af-a3">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#E8B896;">Lv3</span>
+    </div>
+    <div class="af af-a4">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#D0E0F0;">Lv4</span>
+    </div>
+    <div class="af af-a5">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#B0E0FF;">Lv5</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DIRECTION B: FANTASY ELEMENTS ===== -->
+<div class="art-section">
+  <h2 style="color: #FF6D00;">B. Nguyen To / Fantasy (Elements)</h2>
+  <p class="art-desc">
+    Lv1 Go &rarr; Lv2 Da &rarr; Lv3 Lua &rarr; Lv4 Bang &rarr; Lv5 Anh Sang<br>
+    Moi level 1 theme rieng, mang tinh game fantasy. Khung avatar co hieu ung dong (lua chay, bang tan).
+  </p>
+
+  <div class="art-label">THE VIP — 5 LEVELS</div>
+  <div class="art-row">
+    <div class="vc vc-b1">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv1</span>
+      <span class="vc-name">&#127795; Wood</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-b2">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv2</span>
+      <span class="vc-name">&#129704; Stone</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-b3">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv3</span>
+      <span class="vc-name">&#128293; Fire</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-b4">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv4</span>
+      <span class="vc-name">&#10052; Ice</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-b5">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv5</span>
+      <span class="vc-name">&#10024; Celestial</span>
+      <span class="vc-ornament"></span>
+    </div>
+  </div>
+
+  <div class="art-label">KHUNG AVATAR — BAN CHOI</div>
+  <div class="art-sublabel">Lua co pulsing glow, Bang co shimmer, Celestial co aura rotating</div>
+  <div class="board-preview">
+    <div class="af af-b1">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#795548;">Lv1</span>
+    </div>
+    <div class="af af-b2">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#78909C;">Lv2</span>
+    </div>
+    <div class="af af-b3">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#FF6D00;">Lv3</span>
+    </div>
+    <div class="af af-b4">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#90CAF9;">Lv4</span>
+    </div>
+    <div class="af af-b5">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#CE93D8;">Lv5</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DIRECTION C: GRADIENT SANG TRỌNG ===== -->
+<div class="art-section">
+  <h2 style="background: linear-gradient(90deg, #FF6EC7, #7DF9FF, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">C. Gradient Sang Trong (Luxury Gradient)</h2>
+  <p class="art-desc">
+    Lv1 Xanh Dam &rarr; Lv2 Tim &rarr; Lv3 Do Tham &rarr; Lv4 Vang &rarr; Lv5 Holographic<br>
+    Cung template, doi color scheme + ornament phuc tap dan. Player nhin la biet level qua mau sac.
+  </p>
+
+  <div class="art-label">THE VIP — 5 LEVELS</div>
+  <div class="art-row">
+    <div class="vc vc-c1">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv1</span>
+      <span class="vc-name">Sapphire</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-c2">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv2</span>
+      <span class="vc-name">Amethyst</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-c3">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv3</span>
+      <span class="vc-name">Ruby</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-c4">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv4</span>
+      <span class="vc-name">Imperial</span>
+      <span class="vc-ornament"></span>
+    </div>
+    <div class="vc vc-c5">
+      <span class="vc-badge">VIP CARD</span>
+      <span class="vc-level">Lv5</span>
+      <span class="vc-name">Prismatic</span>
+      <span class="vc-ornament"></span>
+    </div>
+  </div>
+
+  <div class="art-label">KHUNG AVATAR — BAN CHOI</div>
+  <div class="art-sublabel">Lv5 Holographic: khung xoay mau lien tuc, noi bat nhat ban choi</div>
+  <div class="board-preview">
+    <div class="af af-c1">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#2a5080;">Lv1</span>
+    </div>
+    <div class="af af-c2">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#7B2FBE;">Lv2</span>
+    </div>
+    <div class="af af-c3">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#C62828;">Lv3</span>
+    </div>
+    <div class="af af-c4">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#FFD700;">Lv4</span>
+    </div>
+    <div class="af af-c5">
+      <div class="af-inner">&#128100;</div>
+      <span class="af-label" style="color:#FF6EC7;">Lv5</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COMPARISON SUMMARY ===== -->
+<div class="art-section" style="border-color: #555;">
+  <h2 style="color: #fff;">So Sanh 3 Huong</h2>
+  <table style="width:100%; border-collapse:collapse; font-size:12px; margin-top:16px;">
+    <tr style="border-bottom:1px solid #333;">
+      <th style="text-align:left; padding:8px; color:#888;">Tieu chi</th>
+      <th style="text-align:center; padding:8px; color:#C9A84C;">A. Kim Loai Quy</th>
+      <th style="text-align:center; padding:8px; color:#FF6D00;">B. Fantasy</th>
+      <th style="text-align:center; padding:8px; color:#7DF9FF;">C. Gradient</th>
+    </tr>
+    <tr style="border-bottom:1px solid #222;">
+      <td style="padding:8px; color:#aaa;">Phu hop tone CTP</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;&#9733;</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+    </tr>
+    <tr style="border-bottom:1px solid #222;">
+      <td style="padding:8px; color:#aaa;">Nhan biet level nhanh</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;&#9733;</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;&#9733;</td>
+    </tr>
+    <tr style="border-bottom:1px solid #222;">
+      <td style="padding:8px; color:#aaa;">De scale cho artist</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+    </tr>
+    <tr style="border-bottom:1px solid #222;">
+      <td style="padding:8px; color:#aaa;">Loss aversion (flex)</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;&#9733;</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+    </tr>
+    <tr>
+      <td style="padding:8px; color:#aaa;">Hieu ung dong (board)</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+      <td style="text-align:center; padding:8px; color:#FFD700;">&#9733;&#9733;&#9733;&#9733;</td>
+    </tr>
+  </table>
+</div>
+
+<div style="height: 60px;"></div>
+
+</body>
+</html>

@@ -1,3 +1,13 @@
+---
+feature: VIP
+type: subscription
+revenue: 87.4
+share: 5.75
+status: active
+tags: [confirmed, needs-improvement]
+related: [event-skb, event-chd]
+updated: 2026-04-07
+---
 # VIP
 
 Related: [event-skb](event-skb.md), [event-chd](event-chd.md) (x2 EXP driver), [_index](_index.md)
@@ -204,10 +214,33 @@ Related: [event-skb](event-skb.md), [event-chd](event-chd.md) (x2 EXP driver), [
 - **Gameplay**: Mất DKXX + x3/x4 EXP → chơi tệ đi
 - **Economy**: Mất Bonus %G + Upgrade R → nạp đắt hơn
 
+### VIP Gacha Cosmetic Shop (ĐÃ CHỐT hướng, chưa triển khai)
+
+**Cosmetic Strategy (ĐÃ CHỐT):**
+- **Cosmetic cơ bản** (khung avatar, khung lobby) = **cùng theme với level VIP**, đồng bộ art direction. Là "đồng phục level" — ai nhìn cũng biết level. Phục vụ loss aversion social.
+- **Cosmetic gacha (VIP Shop)** = đa dạng theme, cho player Lv5 **cá nhân hoá**. Là chỗ tự custom ngoài bộ cơ bản.
+
+**Concept**: Lv5 unlock shop gacha cosmetic premium (ngoài bộ cơ bản mỗi level).
+- Cosmetic gacha được = **sở hữu vĩnh viễn**, không mất khi rớt level
+- Rớt khỏi Lv5 = mất quyền truy cập shop, cosmetic đã có vẫn giữ
+- **Currency**: Mỗi kỳ VIP Lv5 nhận N lượt gacha miễn phí (free spin). Muốn thêm → dùng GEM. Không tạo currency mới.
+- **Pool rotate monthly** → cosmetic mới mỗi tháng, free spin không dùng thì mất → FOMO nhẹ
+
+**Phân phase:**
+- **Phase 1 (launch VIP Level)**: Lv5 hiện placeholder "VIP Exclusive Shop — Coming Soon" → tạo curiosity + giữ Lv5 chờ shop
+- **Phase 2 (sau 1-2 tháng data live)**: Xem data Lv5 pool size + retention → quyết định launch shop hay điều chỉnh (VD: hạ xuống Lv4 unlock nếu ít Lv5)
+
+**Naming theme** (chưa chốt art direction):
+- Hướng "CTP Lore": Người chơi → Nhà đầu tư → Ông trùm → Vua đất → Thần tài
+- Hướng "Con đường đại gia": Startup → Doanh nhân → Triệu phú → Tỷ phú → Huyền thoại
+- Có thể mix naming + art escalation (material + ornament tăng dần)
+
 ### CHƯA CHỐT
-- [ ] **Bonus %G**: Chưa chốt migration từ shop trung. Data: 65% GEM payer chưa VIP, shop hiện 5-20% free. Hướng: giữ shop 10% flat + VIP thêm on top.
+- [ ] **Bonus %G**: Chưa chốt migration từ shop trung. Data: 65% GEM payer chưa VIP. Hướng: giữ shop flat + VIP thêm on top. Shop hiện tại bonus theo gói: 50K (+5% = 525G), 100-200K (+10% = 1,100-2,200G), 300-500K (+15% = 3,450-5,750G), 1 Triệu (+20% = 12,000G).
 - [ ] **Lapsed rule**: Park — chờ data live. Default: lapsed mua lại = Lv1.
 - [ ] DKXX balance, A/B test plan
+- [ ] Art direction thẻ VIP 5 level + khung avatar bàn chơi (xem mockup `mockups/vip_ui_mockup.html`)
+- [ ] VIP Gacha Shop: số free spin mỗi kỳ, giá GEM mỗi lần gacha, pool cosmetic cụ thể
 
 ### Art & UI Tasks
 - [ ] Ref art thẻ VIP các cấp, UI thay đổi theo level

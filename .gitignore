@@ -4,3 +4,15 @@ outputs/
 data/
 .claude/*
 !.claude/skills/
+
+# Obsidian
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+knowledge/.obsidian/workspace.json
+knowledge/.obsidian/workspace-mobile.json
+
+# Playwright temp
+.playwright-mcp/
+
+# Temp screenshots
+*.png

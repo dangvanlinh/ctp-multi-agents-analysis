@@ -13,6 +13,15 @@
 
 Tăng trưởng +31% rev nhưng ARPPU giảm — do UA đổ user mới (PU +102%), ARPPU bị pha loãng.
 
+### Daily Snapshot — T4/2026
+| Ngày | Total Rev | Txn | PU | GEM | GOLD gộp | NEW_JOURNEY | VIP | SEASON_PASS |
+|------|-----------|-----|-----|-----|----------|-------------|-----|-------------|
+| 09/04 | 56.7M | 566 | 364 | 34.4M (60.6%) | 12.0M (21.1%) | 5.0M (8.8%) | 3.5M (6.2%) | 1.9M (3.3%) |
+
+- GOLD gộp = GOLD (3.3M) + GOLD_BONUS (3.9M) + BIG_RICH (4.7M)
+- NEW_JOURNEY = UNKNOW-51/first pay 100k (4.1M) + UNKNOW-50/first pay 50k (0.8M) + NEW_FIRST_PAY (0.1M)
+- Ngày 09/04 rev 56.7M — cao hơn avg T3 (~44M/ngày), GEM vẫn dominant >60%
+
 
 ## KPI Targets
 

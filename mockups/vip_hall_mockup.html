@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sảnh VIP — Mockup</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: #111;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    gap: 20px;
+  }
+  .label { font-size: 14px; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
+  .note { font-size: 12px; color: #666; max-width: 900px; text-align: center; line-height: 1.6; margin-bottom: 10px; }
+
+  /* Game frame */
+  .game-frame {
+    width: 900px;
+    height: 540px;
+    background: linear-gradient(180deg, #1a0e2e 0%, #0f0a1e 100%);
+    border-radius: 8px;
+    border: 3px solid #8B6914;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(139,105,20,0.3), inset 0 0 60px rgba(0,0,0,0.5);
+  }
+  .game-frame::before, .game-frame::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #C9A84C 20%, #FFD700 50%, #C9A84C 80%, transparent);
+    z-index: 10;
+  }
+  .game-frame::before { top: 0; }
+  .game-frame::after { bottom: 0; }
+
+  /* Top bar */
+  .top-bar {
+    background: linear-gradient(180deg, #3D2B0A, #2A1D08);
+    border-bottom: 2px solid #8B6914;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hall-title {
+    font-size: 18px;
+    font-weight: 800;
+    background: linear-gradient(180deg, #FFD700, #C9A84C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+  }
+  .vip-badge {
+    background: linear-gradient(135deg, #FFD700, #C9A84C);
+    color: #1a0e2e;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 10px;
+  }
+  .btn-close {
+    width: 32px;
+    height: 32px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid #5C4A1E;
+    border-radius: 6px;
+    color: #B8A47C;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Main layout */
+  .hall-layout {
+    display: flex;
+    height: calc(100% - 50px);
+    padding: 10px;
+    gap: 10px;
+  }
+
+  /* Left: Character Preview */
+  .preview-panel {
+    width: 260px;
+    background: rgba(0,0,0,0.3);
+    border: 2px solid #5C4A1E;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .preview-header {
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid #3D2B0A;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #FFD700;
+    text-align: center;
+  }
+  .preview-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: radial-gradient(ellipse at center bottom, rgba(139,105,20,0.15) 0%, transparent 70%);
+  }
+  .character-placeholder {
+    width: 120px;
+    height: 160px;
+    border: 2px dashed rgba(139,105,20,0.4);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #5C4A1E;
+    font-size: 10px;
+    text-align: center;
+    gap: 6px;
+  }
+  .character-placeholder .char-icon { font-size: 40px; }
+  .char-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFD700;
+    margin-top: 8px;
+  }
+
+  /* Equipped cosmetics display */
+  .equipped-bar {
+    padding: 8px;
+    border-top: 1px solid #3D2B0A;
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .equipped-item {
+    background: rgba(255,215,0,0.08);
+    border: 1px solid #3D2B0A;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 9px;
+    color: #B8A47C;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .equipped-item .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #7EC850;
+  }
+
+  /* Right: Tabs panel */
+  .tabs-panel {
+    flex: 1;
+    background: rgba(0,0,0,0.3);
+    border: 2px solid #5C4A1E;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Tab bar */
+  .tab-bar {
+    display: flex;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 2px solid #3D2B0A;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #5C4A1E;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .tab-btn.active {
+    color: #FFD700;
+    background: rgba(255,215,0,0.06);
+  }
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: #FFD700;
+  }
+  .tab-btn:hover:not(.active) { color: #B8A47C; }
+  .tab-btn .tab-icon { font-size: 16px; display: block; margin-bottom: 2px; }
+
+  /* Tab content */
+  .tab-content {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    display: none;
+  }
+  .tab-content.active { display: block; }
+
+  /* ===== COSMETIC TAB ===== */
+  .cosmetic-section {
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #C9A84C;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .section-title .line {
+    flex: 1;
+    height: 1px;
+    background: #3D2B0A;
+  }
+  .cosmetic-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .cosmetic-item {
+    background: rgba(0,0,0,0.3);
+    border: 2px solid #3D2B0A;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .cosmetic-item:hover { border-color: #8B6914; }
+  .cosmetic-item.equipped {
+    border-color: #7EC850;
+    box-shadow: 0 0 10px rgba(126,200,80,0.2);
+  }
+  .cosmetic-item.locked {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .cosmetic-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 4px;
+    background: rgba(255,215,0,0.06);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+  .cosmetic-name {
+    font-size: 10px;
+    color: #B8A47C;
+    font-weight: 600;
+  }
+  .cosmetic-req {
+    font-size: 8px;
+    color: #5C4A1E;
+    margin-top: 2px;
+  }
+  .equip-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #7EC850;
+    color: #111;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  .lock-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    opacity: 0.6;
+  }
+
+  /* ===== UPGRADE R TAB ===== */
+  .upgrade-info {
+    background: rgba(255,215,0,0.06);
+    border: 1px solid #3D2B0A;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .upgrade-info .rate-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 3px solid #C9A84C;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .rate-circle .rate-val {
+    font-size: 18px;
+    font-weight: 800;
+    color: #FFD700;
+  }
+  .rate-circle .rate-label {
+    font-size: 7px;
+    color: #B8A47C;
+  }
+  .upgrade-info .rate-breakdown {
+    font-size: 10px;
+    color: #B8A47C;
+    line-height: 1.6;
+  }
+  .rate-breakdown span { color: #FFD700; font-weight: 700; }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .card-item {
+    background: rgba(0,0,0,0.3);
+    border: 2px solid #3D2B0A;
+    border-radius: 8px;
+    padding: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .card-item:hover { border-color: #8B6914; }
+  .card-item.upgraded {
+    border-color: #C9A84C;
+    box-shadow: 0 0 8px rgba(201,168,76,0.2);
+  }
+  .card-thumb {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #2a1a3e, #1a1a2e);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 4px;
+    position: relative;
+  }
+  .card-rank {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background: #C9A84C;
+    color: #111;
+    font-size: 8px;
+    font-weight: 800;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  .card-rank.rank-r {
+    background: linear-gradient(135deg, #FF6B6B, #C0392B);
+    color: #fff;
+  }
+  .card-name {
+    font-size: 9px;
+    color: #B8A47C;
+    font-weight: 600;
+  }
+  .card-status {
+    font-size: 8px;
+    margin-top: 2px;
+  }
+  .card-status.can-upgrade { color: #7EC850; }
+  .card-status.already { color: #C9A84C; }
+  .card-status.not-eligible { color: #5C4A1E; }
+
+  /* Upgrade button */
+  .upgrade-btn-bar {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .selected-card-info {
+    flex: 1;
+    font-size: 11px;
+    color: #B8A47C;
+  }
+  .selected-card-info strong { color: #FFD700; }
+  .btn-upgrade {
+    background: linear-gradient(180deg, #7EC850, #4A9E2F);
+    border: 2px solid #A0E070;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 8px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(126,200,80,0.3);
+  }
+  .btn-upgrade:hover { filter: brightness(1.1); }
+
+  /* ===== VIP INFO TAB ===== */
+  .vip-status-card {
+    background: linear-gradient(135deg, #1a1a2e, #0d0d1a);
+    border: 2px solid #8B6914;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .vip-level-big {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(180deg, #FFD700, #C9A84C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .vip-expire {
+    font-size: 11px;
+    color: #B8A47C;
+    margin-top: 4px;
+  }
+  .benefit-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .benefit-item {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid #3D2B0A;
+    border-radius: 6px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: #B8A47C;
+  }
+  .benefit-item .b-icon { font-size: 18px; }
+  .benefit-item .b-name { font-weight: 600; color: #C9A84C; }
+  .benefit-item .b-val { margin-left: auto; color: #FFD700; font-weight: 700; }
+
+  /* Scrollbar */
+  .tab-content::-webkit-scrollbar { width: 4px; }
+  .tab-content::-webkit-scrollbar-track { background: transparent; }
+  .tab-content::-webkit-scrollbar-thumb { background: #3D2B0A; border-radius: 2px; }
+
+  /* Annotations */
+  .annotation {
+    position: absolute;
+    font-size: 10px;
+    color: #FF6B6B;
+    background: rgba(255,107,107,0.1);
+    border: 1px solid rgba(255,107,107,0.3);
+    padding: 3px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 20;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<div class="label">Sảnh VIP — Phase 1: Hub Setting</div>
+<div class="note">
+  Entry point: từ nút VIP ở bottom bar → mở Sảnh VIP.<br>
+  Phase 1 = hub setting (cosmetic + upgrade R + preview). Phase 2 = social lobby (NV chạy, BXH, thách đấu).
+</div>
+
+<div class="game-frame">
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span class="hall-title">SẢNH VIP</span>
+      <span class="vip-badge">Lv3</span>
+    </div>
+    <div class="btn-close">✕</div>
+  </div>
+
+  <div class="hall-layout">
+    <!-- LEFT: Character Preview -->
+    <div class="preview-panel">
+      <div class="preview-header">NHÂN VẬT CỦA BẠN</div>
+      <div class="preview-body">
+        <div class="character-placeholder">
+          <div class="char-icon">🧙</div>
+          <div>NV đang dùng<br>hiển thị tại đây</div>
+        </div>
+        <div class="char-name">Phù Thủy Lửa ★★★</div>
+      </div>
+      <div class="equipped-bar">
+        <div class="equipped-item"><span class="dot"></span> Khung Vip3</div>
+        <div class="equipped-item"><span class="dot"></span> FX Vàng</div>
+        <div class="equipped-item"><span class="dot"></span> BG Sảnh</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Tabs -->
+    <div class="tabs-panel">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('cosmetic')">
+          <span class="tab-icon">✨</span>COSMETIC
+        </button>
+        <button class="tab-btn" onclick="switchTab('upgrade')">
+          <span class="tab-icon">⬆</span>NÂNG CẤP R
+        </button>
+        <button class="tab-btn" onclick="switchTab('info')">
+          <span class="tab-icon">👑</span>VIP INFO
+        </button>
+      </div>
+
+      <!-- TAB: Cosmetic -->
+      <div class="tab-content active" id="tab-cosmetic">
+        <!-- Khung Avatar -->
+        <div class="cosmetic-section">
+          <div class="section-title">Khung Avatar <span class="line"></span></div>
+          <div class="cosmetic-grid">
+            <div class="cosmetic-item equipped">
+              <span class="equip-badge">ĐANG DÙNG</span>
+              <div class="cosmetic-icon">🖼️</div>
+              <div class="cosmetic-name">Khung Vip3</div>
+              <div class="cosmetic-req">Lv3+</div>
+            </div>
+            <div class="cosmetic-item">
+              <div class="cosmetic-icon">🖼️</div>
+              <div class="cosmetic-name">Khung Vip2</div>
+              <div class="cosmetic-req">Lv2+</div>
+            </div>
+            <div class="cosmetic-item">
+              <div class="cosmetic-icon">🖼️</div>
+              <div class="cosmetic-name">Khung Vip1</div>
+              <div class="cosmetic-req">Lv1+</div>
+            </div>
+            <div class="cosmetic-item locked">
+              <span class="lock-badge">🔒</span>
+              <div class="cosmetic-icon">🖼️</div>
+              <div class="cosmetic-name">Khung Vip4</div>
+              <div class="cosmetic-req">Cần Lv4</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FX Tung XX -->
+        <div class="cosmetic-section">
+          <div class="section-title">FX Tung Xúc Xắc <span class="line"></span></div>
+          <div class="cosmetic-grid">
+            <div class="cosmetic-item equipped">
+              <span class="equip-badge">ĐANG DÙNG</span>
+              <div class="cosmetic-icon">🎇</div>
+              <div class="cosmetic-name">FX Vàng</div>
+              <div class="cosmetic-req">Lv3+</div>
+            </div>
+            <div class="cosmetic-item">
+              <div class="cosmetic-icon">🎆</div>
+              <div class="cosmetic-name">FX Bạc</div>
+              <div class="cosmetic-req">Lv2+</div>
+            </div>
+            <div class="cosmetic-item">
+              <div class="cosmetic-icon">✨</div>
+              <div class="cosmetic-name">FX Cơ bản</div>
+              <div class="cosmetic-req">Lv1+</div>
+            </div>
+            <div class="cosmetic-item locked">
+              <span class="lock-badge">🔒</span>
+              <div class="cosmetic-icon">💎</div>
+              <div class="cosmetic-name">FX Kim Cương</div>
+              <div class="cosmetic-req">Cần Lv4</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deco Lobby -->
+        <div class="cosmetic-section">
+          <div class="section-title">Deco Lobby & BG <span class="line"></span></div>
+          <div class="cosmetic-grid">
+            <div class="cosmetic-item equipped">
+              <span class="equip-badge">ĐANG DÙNG</span>
+              <div class="cosmetic-icon">🏰</div>
+              <div class="cosmetic-name">BG Sảnh Vàng</div>
+              <div class="cosmetic-req">Lv3+</div>
+            </div>
+            <div class="cosmetic-item">
+              <div class="cosmetic-icon">🌌</div>
+              <div class="cosmetic-name">BG Đêm Sao</div>
+              <div class="cosmetic-req">Lv2+</div>
+            </div>
+            <div class="cosmetic-item locked">
+              <span class="lock-badge">🔒</span>
+              <div class="cosmetic-icon">🐉</div>
+              <div class="cosmetic-name">Deco Rồng</div>
+              <div class="cosmetic-req">Cần Lv5</div>
+            </div>
+            <div class="cosmetic-item locked">
+              <span class="lock-badge">🔒</span>
+              <div class="cosmetic-icon">👑</div>
+              <div class="cosmetic-name">Frame Lobby</div>
+              <div class="cosmetic-req">Cần Lv5</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Upgrade R -->
+      <div class="tab-content" id="tab-upgrade">
+        <div class="upgrade-info">
+          <div class="rate-circle">
+            <div class="rate-val">+5%</div>
+            <div class="rate-label">BONUS RATE</div>
+          </div>
+          <div class="rate-breakdown">
+            VIP Lv3: <span>+5%</span> upgrade rate<br>
+            CLB B+: <span>+3%</span> (nếu có)<br>
+            Tổng cộng: <span>+8%</span> rate bonus<br>
+            <span style="color:#5C4A1E; font-size:9px;">VIP hết hạn → mất bonus, thẻ đã upgrade giữ nguyên</span>
+          </div>
+        </div>
+
+        <div class="section-title">Thẻ có thể nâng cấp R <span class="line"></span></div>
+        <div class="card-grid">
+          <div class="card-item" style="border-color:#7EC850;">
+            <div class="card-thumb">
+              🧙
+              <span class="card-rank">A</span>
+            </div>
+            <div class="card-name">Phù Thủy Lửa</div>
+            <div class="card-status can-upgrade">▲ Có thể nâng R</div>
+          </div>
+          <div class="card-item">
+            <div class="card-thumb">
+              ⚔️
+              <span class="card-rank">A</span>
+            </div>
+            <div class="card-name">Kiếm Sĩ Gió</div>
+            <div class="card-status can-upgrade">▲ Có thể nâng R</div>
+          </div>
+          <div class="card-item upgraded">
+            <div class="card-thumb">
+              🛡️
+              <span class="card-rank rank-r">R</span>
+            </div>
+            <div class="card-name">Giáp Sĩ Đất</div>
+            <div class="card-status already">★ Đã nâng R</div>
+          </div>
+          <div class="card-item upgraded">
+            <div class="card-thumb">
+              🏹
+              <span class="card-rank rank-r">R</span>
+            </div>
+            <div class="card-name">Cung Thủ Băng</div>
+            <div class="card-status already">★ Đã nâng R</div>
+          </div>
+          <div class="card-item">
+            <div class="card-thumb" style="opacity:0.4;">
+              🧝
+              <span class="card-rank">B</span>
+            </div>
+            <div class="card-name" style="opacity:0.4;">Tiên Nữ</div>
+            <div class="card-status not-eligible">Cần rank A+</div>
+          </div>
+        </div>
+
+        <div class="upgrade-btn-bar">
+          <div class="selected-card-info">
+            Chọn: <strong>Phù Thủy Lửa (A)</strong> → Nâng lên <strong>R</strong>
+          </div>
+          <button class="btn-upgrade">⬆ NÂNG CẤP R</button>
+        </div>
+      </div>
+
+      <!-- TAB: VIP Info -->
+      <div class="tab-content" id="tab-info">
+        <div class="vip-status-card">
+          <div class="vip-level-big">VIP Lv3</div>
+          <div class="vip-expire">Hết hạn: 15/04/2026 — còn 9 ngày</div>
+          <div style="font-size:9px; color:#5C4A1E; margin-top:4px;">Grace 3 ngày sau hết hạn. Không gia hạn = Reset Lv0</div>
+        </div>
+
+        <div class="section-title">Benefit hiện tại <span class="line"></span></div>
+        <ul class="benefit-list">
+          <li class="benefit-item">
+            <span class="b-icon">💎</span>
+            <span class="b-name">GEM</span>
+            <span class="b-val">1,500G / kỳ</span>
+          </li>
+          <li class="benefit-item">
+            <span class="b-icon">📦</span>
+            <span class="b-name">Rương Vàng</span>
+            <span class="b-val">50 / kỳ</span>
+          </li>
+          <li class="benefit-item">
+            <span class="b-icon">🟣</span>
+            <span class="b-name">Rương Tím</span>
+            <span class="b-val">15 / kỳ</span>
+          </li>
+          <li class="benefit-item">
+            <span class="b-icon">🟠</span>
+            <span class="b-name">Rương Cam</span>
+            <span class="b-val">15 / kỳ</span>
+          </li>
+          <li class="benefit-item">
+            <span class="b-icon">⚡</span>
+            <span class="b-name">EXP Nhân Vật</span>
+            <span class="b-val">x3</span>
+          </li>
+          <li class="benefit-item">
+            <span class="b-icon">🎲</span>
+            <span class="b-name">DKXX Bonus</span>
+            <span class="b-val">+5%</span>
+          </li>
+          <li class="benefit-item">
+            <span class="b-icon">🔑</span>
+            <span class="b-name">Chìa Khóa Đục Lỗ</span>
+            <span class="b-val">10 / kỳ</span>
+          </li>
+          <li class="benefit-item">
+            <span class="b-icon">⬆️</span>
+            <span class="b-name">Upgrade R</span>
+            <span class="b-val">Unlock + 5% rate</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="note" style="margin-top: 10px;">
+  <strong>Flow:</strong> Nút VIP (bottom bar) → Sảnh VIP → 3 tab: Cosmetic (equip khung/FX/deco), Nâng cấp R (chọn thẻ upgrade), VIP Info (benefit tổng quan).<br>
+  Bên trái: preview NV đang dùng + cosmetic đang mang → thấy ngay thay đổi khi equip.<br>
+  Phase 2: thêm tab "Sảnh" với NV chạy loanh quanh + social features.
+</div>
+
+<script>
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+  event.currentTarget.classList.add('active');
+  document.getElementById('tab-' + tabName).classList.add('active');
+}
+</script>
+</body>
+</html>
