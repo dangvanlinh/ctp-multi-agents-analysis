@@ -27,6 +27,14 @@ WHERE feature != null
 SORT updated DESC
 ```
 
+## Predictions Pending Review
+
+```dataview
+TABLE feature AS "Feature", prediction AS "Prediction", check-date AS "Check Date"
+FROM "predictions"
+WHERE accuracy = null
+```
+
 ## Quick Links
 
 - [[features/_index|Feature Map & Cross-Dependencies]]
@@ -34,4 +42,7 @@ SORT updated DESC
 - [[economy|Economy Overview]]
 - [[player-behavior|Player Behavior]]
 - [[analysis-flows|Analysis Frameworks]]
+- [[decisions|Decision Log]]
+- [[predictions|Prediction Log]]
 - [[resolved|Quyết định đã CHỐT]]
+- [[second-brain-flow|Second Brain Flow — How It Gets Smarter]]
